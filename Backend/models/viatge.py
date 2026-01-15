@@ -11,7 +11,8 @@ class Viatge(Base):
     data_inici = Column(String(10), default=False)
     data_fi = Column(String(10), default=False)
     descripcio = Column(String(200), default=False)
+    estat = Column(String(50),default=False)
 
-    participants = relationship("Usuari", secondary=inscripcions, back_populates="viatges_inscrit")
+    usuariViatge = relationship("UsuariViatge", back_populates="viatge")
     
     
