@@ -5,7 +5,7 @@ from db.database import Base
 class Usuari(Base):
     __tablename__ = "usuari"
     
-    usuari_id = Column(Integer, primary_key=True, index=True)
+    usuaris_id = Column(Integer, primary_key=True, index=True)
     email = Column(String(50), nullable=False, unique=True)
     hashed_password = Column(String(100), nullable=False)
     full_name = Column(String(50), nullable=True)

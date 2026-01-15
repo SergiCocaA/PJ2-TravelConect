@@ -5,7 +5,7 @@ from db.database import Base
 class Viatge(Base):
     __tablename__ = "viatge"
     
-    viatge_id = Column(Integer, primary_key=True, index=True)
+    viatges_id = Column(Integer, primary_key=True, index=True)
     nom = Column(String(50), nullable=False)
     desti = Column(String(50), nullable=False)
     data_inici = Column(String(10), default=False)
