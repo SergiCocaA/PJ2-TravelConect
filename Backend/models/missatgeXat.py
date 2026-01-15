@@ -6,11 +6,11 @@ class MissatgeXat(Base):
     __tablename__ = "missatgeXat"
 
     id = Column(Integer, primary_key=True, index=True)
-    contingut = Column(String(50),unique=True, nullable=False)
+    contingut = Column(String(1000), nullable=False)
     timestamp = Column(DateTime, nullable=False)
 
-    viatge_xat = Column(Integer, ForeignKey("viatge.id"),nullable=True)
-    autor_xat = Column(Integer, ForeignKey("usuari.id"),nullable=True)
+    viatge_xat = Column(Integer, ForeignKey("viatge.id"),nullable=False)
+    autor_xat = Column(Integer, ForeignKey("usuari.id"),nullable=False)
 
 
     #1-->Nº
