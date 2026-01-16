@@ -1,5 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
+import enum
+
+
+class EstatPlanificacio(str, enum.Enum):
+    PLANIFICANT = "Planificant"
+    ACTIU = "Actiu"
+    COMPLET = "Complet"
+    CANCEL·LAT = "Cancel·lat"
 
 class ViatgeBase(BaseModel):
     nom: str
@@ -7,7 +15,7 @@ class ViatgeBase(BaseModel):
     data_inici: str
     data_fi: str
     descripcio: Optional[str] = None
-    estat: str
+    estat: EstatPlanificacio.PLANIFICANT
 
 class ViatgeCreate(ViatgeModel):
     pass 
