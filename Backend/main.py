@@ -20,8 +20,8 @@ def read_root():
 def read_item(nombre: str):
     return {"saludo": f"Hola {nombre}!"}
 
-#USUARIS
 
+#USUARIS
 @app.get("/users/me")
 def perfilUsuari():
     return()
@@ -32,7 +32,6 @@ def actualizarPerfil(nom: str, bio: str)
 
 
 #VIATGERS
-
 @app.get("/trips")
 def listarViajesDisponibles()
     return()
@@ -52,6 +51,7 @@ def desinsribirID()
 @app.post("/promote-request")
 def crearPeticio()
     return()
+
 
 #CREADORS DE VIATGES
 @app.post("/creator/trips")
