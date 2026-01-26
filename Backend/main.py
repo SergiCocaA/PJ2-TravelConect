@@ -24,11 +24,20 @@ def read_item(nombre: str):
 #USUARIS
 @app.get("/users/me")
 def perfilUsuari():
-    return()
+    return{}
 
 @app.put("/users/me/{nom}/{bio}")
-def actualizarPerfil(nom: str, bio: str)
-    return()
+def actualizarPerfil(
+    nom: str, 
+    bio: str
+    db: Session = Depends(get_db)
+    usuari_actual: models.usuari = Depends(get_usuari_actual) 
+):
+    usuari_actual.full_name = nom
+    usuari_actual.bio = bio
+    db.commit()
+    db.refresh(usuari_actual)
+    return{"mensaje:""Perfil actualizado", "user:" usuari_actual}
 
 
 #VIATGERS
