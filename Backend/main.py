@@ -1,9 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+from typing import List
+
+# Importamos tus cosas (ajusta los nombres de tus archivos si hace falta)
+from db.database import get_db
+from auth.deps import get_current_user 
+import models.usuari as models 
 
 app = FastAPI()
 
-# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5500"],
@@ -11,20 +17,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+#TOKEN
+#Autentica las credenciales del usuario en la base de datos y genera un token temporal con su ID de usuario para permitir el acceso a rutas protegidas
+@app.post("/token")
+def token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(form_data.username, form_data.password)
 
-@app.get("/")
-def read_root():
-    return {"mensaje": "Hola alumnos!"}
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales incorrectas"
+        )
 
-@app.get("/saludo/{nombre}")
-def read_item(nombre: str):
-    return {"saludo": f"Hola {nombre}!"}
+    access_token = create_access_token(
+        data={"sub": user["username"]},
+        expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 
 #USUARIS
 @app.get("/users/me")
-def perfilUsuari():
-    return{}
+def perfil_usuari(usuari_actual: models.Usuari = Depends(get_current_user)):
+    return usuari_actual
 
 @app.put("/users/me/{nom}/{bio}")
 def actualizarPerfil(
