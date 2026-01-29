@@ -18,7 +18,9 @@ class ViatgeBase(BaseModel):
     estat: EstatPlanificacio.PLANIFICANT
 
 class ViatgeCreate(ViatgeModel):
-    pass 
+    nom: str
+    desti: str
+    maxim_participants: int     
 
 class ViatgeOut(ViatgeModel):
     viatge_id: int 

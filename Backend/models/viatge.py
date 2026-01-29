@@ -17,11 +17,13 @@ class Viatge(Base):
     viatges_id = Column(Integer, primary_key=True, index=True)
     nom = Column(String(50), nullable=False)
     desti = Column(String(50), nullable=False)
-    data_inici = Column(String(10), default=False)
-    data_fi = Column(String(10), default=False)
-    descripcio = Column(String(200), default=False)
-    estat = Column(String(50),default=EstatPlanificacio.PLANIFICANT)
+    data_inici = Column(String(10)) 
+    data_fi = Column(String(10)) 
+    descripcio = Column(String(200))
+    estat = Column(String(50), default=EstatPlanificacio.PLANIFICANT)
 
-    usuariViatge = relationship("UsuariViatge", back_populates="viatge")
+    usuari_viatge_ = relationship("UsuariViatge", back_populates="viatge")
+    
+    participants = relationship("Usuari", secondary="usuari_viatge", back_populates="viatges_inscrit")
     
     
