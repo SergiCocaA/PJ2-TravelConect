@@ -30,9 +30,9 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     } 
 
 @router.post("/register")
-def register(db: Session = Depends(get_db), data: dict):
+def register(db: Session = Depends(get_db), data: dict=Body(...)):
     usuari = db.query(modelsUsuari.Usuari).filter(modelsUsuari.Usuari.email == data["email"]).first()
-    if usuari
+    if usuari:
         raise HTTPException(status_code=400, detail="Email ya registrado")
 
     return crudUsuari.crear_usuari(db, data)
