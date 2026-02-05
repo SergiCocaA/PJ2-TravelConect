@@ -1,6 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import usuari, viatges, auth 
+from routers import administrador, auth, reserva, xat, usuari,viatge
+from database import Base, engine
+
+#Crear les taules a la bd
+Base.metadata.create_all(bind=engine)
+
+app.include_router(administrador.router)
+app.include_router(auth.router)
+app.include_router(reserva.router)
+app.include_router(xat.router)
+app.include_router(usuari.router)
+app.include_router(viatge.router)
 
 app = FastAPI(title="TravelConnect API")
 

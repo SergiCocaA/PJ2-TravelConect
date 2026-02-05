@@ -21,3 +21,9 @@ class UsuariOut(UsuariBase):
 
     class Config:
         from_attributes = True 
+
+class UserResponse(UsuariBase):
+    usuaris_id: int 
+
+    class Config:
+        from_attributes = True 

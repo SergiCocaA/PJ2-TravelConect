@@ -18,6 +18,11 @@ def actualizar_perfil(
     nom: str, 
     bio: str,
     db: Session = Depends(get_db),
-    usuari_actual: models.Usuari = Depends(get_current_user) 
+    usuari_actual: models.usuari = Depends(get_usuari_actual) 
 ):
-    return crud.actualitzar_perfil_usuari(db, usuari_actual.usuaris_id, nom, bio)
+    usuari_actual.full_name = nom
+    usuari_actual.bio = bio
+    db.commit()
+    db.refresh(usuari_actual)
+    return usuari_actual
+

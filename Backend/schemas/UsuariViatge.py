@@ -10,3 +10,7 @@ class UsuariViatgeCreate(UsuariViatgeBase):
 class UsuariViatgeOut(UsuariViatgeBase):
     class Config:
         from_attributes = True
+
+class UsuariViatgeResponse(UsuariViatgeBase):
+    class Config:
+        from_attributes = True
