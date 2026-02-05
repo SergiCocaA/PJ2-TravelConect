@@ -11,7 +11,7 @@ class EstatPeticio(str, enum.Enum):
 class PeticioPromo(Base):
     __tablename__ = "peticioPromo"
 
-    id = Column(Integer, primary_key=True, index=True)
+    peticio_id = Column(Integer, primary_key=True, index=True)
     missatge_peticio = Column(String(500), nullable=False)
     estat = Column(String(20),default=EstatPeticio.PENDENT)
 

@@ -23,7 +23,7 @@ def missatge(trip_id: int, missatge:MissatgesCreate,
         raise HTTPException(status_code=400, detail="Error al crear missatge")
     return db_missatge
 
-
+ 
 #response_model=MissatgesResponse para controlar la informacion que va a recibir el usuario solo lo esencial,
     #puede usarse el list si es una cadena muy larga de contenido
 

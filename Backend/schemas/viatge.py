@@ -26,4 +26,10 @@ class ViatgeOut(ViatgeModel):
     viatge_id: int 
 
     class Config:
-        from_attributes = True 
+        from_attributes = True
+
+class ViatgeResponse(ViatgeBase):
+    viatge_id: int 
+
+    class Config:
+        from_attributes = True
