@@ -12,8 +12,8 @@ class EstatPlanificacio(str, enum.Enum):
 class Viatge(Base):
     __tablename__ = "viatge"
     
-    viatges_id = Column(Integer, primary_key=True, index=True)
-    creador_id = Column(Integer, ForeignKey("usuari.usuaris_id"), nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    creador_id = Column(Integer, ForeignKey("usuari.id"), nullable=False)
     nom = Column(String(50), nullable=False)
     desti = Column(String(50), nullable=False)
     data_inici = Column(String(10)) 

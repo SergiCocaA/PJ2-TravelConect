@@ -12,7 +12,7 @@ class Rol(str, enum.Enum):
 class Usuari(Base):
     __tablename__ = "usuari"
     
-    usuaris_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     email = Column(String(50), nullable=False, unique=True)
     hashed_password = Column(String(100), nullable=False)
     full_name = Column(String(50), nullable=True)

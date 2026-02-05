@@ -5,7 +5,7 @@ from db.database import Base
 class MissatgeXat(Base):
     __tablename__ = "missatgeXat"
 
-    missatge_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     contingut = Column(String(1000), nullable=False)
     timestamp = Column(DateTime, nullable=False)
 
