@@ -17,5 +17,4 @@ class PeticioPromo(Base):
 
     usuari_solicitant = Column(Integer, ForeignKey("usuari.id"),nullable=False)
 
-    #1-->N
     usuari = relationship("Usuari", back_populates="peticioPromo")
