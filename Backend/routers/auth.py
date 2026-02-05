@@ -2,21 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from db.database import get_db
-from auth.utils import authenticate_user, create_access_token
-import models.usuari as modelsUsuari
-import crud.usuari as crudUsuari
-#Autentica las credenciales del usuario en la base de datos y genera un token temporal con su ID de usuario para permitir el acceso a rutas protegidas
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from db.database import get_db
-import crud.auth as crud_auth
-from auth.utils import create_access_token 
+import crud.usuari as crud_usuari
+import models.usuari as models_usuari
+from auth.utils import create_access_token
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     
-    usuari = crud_auth.autenticar_usuari(db, form_data.username, form_data.password)
+    usuari = crud_usuari.autenticar_usuari(db, form_data.username, form_data.password)
     
     if not usuari:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Email o contrasenya incorrectes")
