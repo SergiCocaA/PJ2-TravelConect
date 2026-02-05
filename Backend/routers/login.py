@@ -4,9 +4,10 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from auth.utils import authenticate_user, create_access_token
 
+router = APIRouter(prefix="/login", tags=["login"])
 #Autentica las credenciales del usuario en la base de datos y genera un token temporal con su ID de usuario para permitir el acceso a rutas protegidas
 @router.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = (get_db)):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
 
     if not user:

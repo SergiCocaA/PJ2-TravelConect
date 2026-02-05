@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import administrador, auth, usuari, viatge, creadorViatges, login, missatges
-from database import Base, engine
+from db.database import Base, engine
 
 #Crear les taules a la bd
 Base.metadata.create_all(bind=engine)

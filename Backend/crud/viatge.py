@@ -22,8 +22,8 @@ def insribir_viatge(db: Session, usuari_actual, viatge_id: int):
     db.commit()
     return{"mensaje:" "El usuario ha sido inscrito correctamente"}
 
-def desinscribir_viatge(db: Session, usuari_actual, viatge_id: int)
-    viatge = db.query(models.Viatge).filter(models:viatge.id == viatge.id)first()
+def desinscribir_viatge(db: Session, usuari_actual, viatge_id: int):
+    viatge = db.query(models.Viatge).filter(models.Viatge.id == viatge.id).first()
 
     if not viatge:
         return {"error:" "No se ha econtrado ningun viaje"}

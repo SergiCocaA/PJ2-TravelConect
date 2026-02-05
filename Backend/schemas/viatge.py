@@ -17,12 +17,12 @@ class ViatgeBase(BaseModel):
     descripcio: Optional[str] = None
     estat: EstatPlanificacio.PLANIFICANT
 
-class ViatgeCreate(ViatgeModel):
+class ViatgeCreate(ViatgeBase):
     nom: str
     desti: str
     maxim_participants: int     
 
-class ViatgeOut(ViatgeModel):
+class ViatgeOut(ViatgeBase):
     viatge_id: int 
 
     class Config:

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum as SQLEnum,DateTime
 from sqlalchemy.orm import relationship
-from database import Base
+from db.database import Base
 
 class MissatgeXat(Base):
     __tablename__ = "missatgeXat"

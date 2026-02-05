@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.database import get_db
 from auth.deps import get_current_user
-import crud.creadorViatge as crud 
+import crud.creadorViatges as crud 
 
 router = APIRouter()
 
@@ -14,7 +14,7 @@ def crear_viatge(data: dict, db: Session = Depends(get_db), usuari = Depends(get
 
 @router.put("/creator/trips/{id}")
 def editar_viatge(id: int, db: Session = Depends(get_db), usuari = Depends(get_current_user)):
-    if usuari.rol not in ["Creador", "Admin"]
+    if usuari.rol not in ["Creador", "Admin"]:
         raise HTTPException(status_code=403, detail="No tens permisos")
     return crud.editar_viatge(db, data, id, usuari.usuaris_id)
 
