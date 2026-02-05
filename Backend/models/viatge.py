@@ -21,5 +21,6 @@ class Viatge(Base):
     maxim_participants = Column(Integer, default=10)
     descripcio = Column(String(200))
     estat = Column(String(50), default=EstatPlanificacio.PLANIFICANT)
-    usuari_viatge_assoc = relationship("UsuariViatge", back_populates="viatge")
+
+    usuari_viatge = relationship("UsuariViatge", back_populates="viatge")
     participants = relationship("Usuari", secondary="usuari_viatge", back_populates="viatges_inscrit")
