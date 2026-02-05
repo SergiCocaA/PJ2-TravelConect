@@ -14,7 +14,7 @@ class UsuariBase(BaseModel):
     bio: Optional[str] = None
 
 class UsuariCreate(UsuariBase):
-    password: str 
+    password: str   
 
 class UsuariOut(UsuariBase):
     usuaris_id: int 
@@ -22,7 +22,7 @@ class UsuariOut(UsuariBase):
     class Config:
         from_attributes = True 
 
-class UserResponse(UsuariBase):
+class UsuariResponse(UsuariBase):
     usuaris_id: int 
 
     class Config:

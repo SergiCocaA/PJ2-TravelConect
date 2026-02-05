@@ -20,9 +20,5 @@ def actualizar_perfil(
     db: Session = Depends(get_db),
     usuari_actual: models.usuari = Depends(get_usuari_actual) 
 ):
-    usuari_actual.full_name = nom
-    usuari_actual.bio = bio
-    db.commit()
-    db.refresh(usuari_actual)
-    return usuari_actual
+    return crud.actualitzar_perfil_usuari(db, usuari_actual.usuaris_id, nom, bio)
 
