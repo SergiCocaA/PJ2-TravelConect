@@ -5,15 +5,15 @@ from auth.deps import get_current_user
 import models.usuari as models
 import crud.usuari as crud # Importem el teu crud d'usuaris
 
-router = APIRouter()
+router = APIRouter(prefix="/users", tags=["Usuaris"])
 
 # USUARI
 
-@router.get("/users/me")
+@router.get("/me")
 def perfil_usuari(usuari_actual: models.Usuari = Depends(get_current_user)):
     return usuari_actual
 
-@router.put("/users/me/{nom}/{bio}")
+@router.put("/me/{nom}/{bio}")
 def actualizar_perfil(
     nom: str, 
     bio: str,

@@ -1,24 +1,19 @@
 from sqlalchemy.orm import Session
-from models.usuari import User
-from models.promocion import Promocion
-from models.viatge import Viatge
-from models.reserva import Reserva
-from models.missatge import Missatge
-from models.peticionPromo import PeticionPromo
-from schemas.peticionPromo import PeticionPromoCreate, PeticionPromoResponse
+from models.usuari import Usuari
+from models.peticioPromo import PeticioPromo
 
 def get_users(db:Session):
-    return db.query(User).all()
+    return db.query(Usuari).all()
 
 def change_rol(db:Session, user_id:int, new_rol:str):
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(Usuari).filter(Usuari.id == user_id).first()
     user.rol = new_rol
     return user
 
 def get_promocions(db:Session):
-    return db.query(Promocion).all()
+    return db.query(PeticioPromo).all()
 
-def canviar_estat_promocion(db:Session, peticio_id:int, new_estado:str):
-    promocio = db.query(PeticioPromo).filter(PeticioPromo.peticio_id == peticio_id).first()
+def canviar_estat_promocio(db:Session, peticio_id:int, new_estado:str):
+    promocio = db.query(PeticioPromo).filter(PeticioPromo.id == peticio_id).first()
     promocio.estat = new_estado
     return promocio

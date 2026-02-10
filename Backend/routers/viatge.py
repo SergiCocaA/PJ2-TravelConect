@@ -6,7 +6,7 @@ import models.viatge as models_viatge
 import models.usuari as models_usuari
 import crud.viatge as crud
 
-router = APIRouter()
+router = APIRouter(tags=["Viatge"])
 
 #VIATGE 
 
