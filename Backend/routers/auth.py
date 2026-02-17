@@ -6,7 +6,7 @@ import crud.usuari as crud_usuari
 import models.usuari as models_usuari
 from auth.utils import create_access_token
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(tags=["Auth"])
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):

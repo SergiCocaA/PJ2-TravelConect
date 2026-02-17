@@ -7,7 +7,7 @@ import models.usuari as models
 
 SECRET_KEY = "clavemegasecreta"
 ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 # Valida el token del usuario, comprueba si existe en la base de datos y devuelve sus datos.
 def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
