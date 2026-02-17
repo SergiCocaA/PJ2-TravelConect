@@ -19,8 +19,8 @@ class Usuari(Base):
     rol = Column(String(20), default=Rol.VIATGER)
     bio = Column(String(200), nullable=True) 
     
-    usuari_viatge = relationship("UsuariViatge", back_populates="usuari")
+    usuariViatge = relationship("usuariViatge", back_populates="usuari")
 
-    viatges_inscritos = relationship("Viatge", secondary="usuari_viatge", back_populates="participants")
+    viatges_inscritos = relationship("Viatge", secondary="usuariViatge", back_populates="participants")
 
     peticioPromo = relationship("PeticioPromo", back_populates="usuari")
