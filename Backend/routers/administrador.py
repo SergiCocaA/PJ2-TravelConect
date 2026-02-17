@@ -5,7 +5,7 @@ from crud import administrador as curd_admin
 from schemas.peticioPromo import PeticioPromoResponse
 from schemas.usuari import UsuariResponse
 
-router = APIRouter(prefix='/admin', tags=["Administrador"])
+router = APIRouter(tags=["Administrador"])
 
 @router.get("/users")
 def get_users(db: Session = Depends(get_db)):

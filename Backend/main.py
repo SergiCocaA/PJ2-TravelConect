@@ -5,13 +5,9 @@ from db.database import Base, engine
 
 app = FastAPI(title="TravelConnect API")
 
-@app.on_event("startup")
-async def startup_event():
-    try:
-        Base.metadata.create_all(bind=engine)
-        print("✅ Tablas creadas correctamente")
-    except Exception as e:
-        print(f"❌ Error al crear tablas: {e}")
+
+Base.metadata.create_all(bind=engine)
+
 
 # COMENTAR TODOS LOS ROUTERS TEMPORALMENTE
 app.include_router(administrador.router, prefix="/admin")
