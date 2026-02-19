@@ -22,5 +22,6 @@ class Viatge(Base):
     descripcio = Column(String(200))
     estat = Column(String(50), default=EstatPlanificacio.PLANIFICANT)
 
-    usuariViatge = relationship("usuariViatge", back_populates="viatge")
-    participants = relationship("Usuari", secondary="usuariViatge", back_populates="viatges_inscrit")
+    usuariViatge = relationship("UsuariViatge", back_populates="viatge")
+    participants = relationship("Usuari", secondary="usuariViatge", back_populates="viatges_inscrit", overlaps="usuariViatge")
+    missatgeXat = relationship("MissatgeXat", back_populates="viatge")

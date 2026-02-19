@@ -14,5 +14,5 @@ class MissatgeXat(Base):
 
 
     #1-->Nº
-    viatge = relationship("viatge", back_populates="missatgeXat")
+    viatge = relationship("Viatge", back_populates="missatgeXat")
     autor = relationship("Usuari", back_populates="missatgeXat")

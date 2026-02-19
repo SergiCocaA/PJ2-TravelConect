@@ -6,6 +6,11 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 import bcrypt
 
+SECRET_KEY = "clavemegasecreta"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 #Compara la contraseña plana con la contraseña de la BD, verfica si son las mismas
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -20,7 +25,7 @@ def authenticate_user(usuari: str, password: str, db):
     return user
 
 def get_user(usuari: str, db):
-    return curd_get_user(db, usuari)
+    return crud_get_user(db, usuari)
 
 #Crea el token en funcion del usuario
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

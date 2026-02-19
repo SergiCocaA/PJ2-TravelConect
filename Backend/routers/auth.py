@@ -16,7 +16,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     if not usuari:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Email o contrasenya incorrectes")
     
-    access_token = create_access_token(data={"sub": str(usuari.usuaris_id), "rol": usuari.rol})
+    access_token = create_access_token(data={"sub": str(usuari.id), "rol": usuari.rol})
     
     return {
         "access_token": access_token, 
@@ -26,8 +26,10 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @router.post("/register")
 def register(db: Session = Depends(get_db), data: dict=Body(...)):
-    usuari = db.query(modelsUsuari.Usuari).filter(modelsUsuari.Usuari.email == data["email"]).first()
+    usuari = db.query(models_usuari.Usuari).filter(models_usuari.Usuari.email == data["email"]).first()
     if usuari:
         raise HTTPException(status_code=400, detail="Email ya registrado")
 
-    return crudUsuari.crear_usuari(db, data)
+    return crud_usuari.crear_usuari(db, data)
+
+
