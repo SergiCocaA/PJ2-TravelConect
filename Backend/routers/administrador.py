@@ -32,10 +32,10 @@ def get_promocions(db:Session = Depends(get_db)):
     return db_promocions
 
 @router.put("/promotions/{user_id}", response_model=PeticioPromoResponse)
-def canviar_estat_promocio(user_id: int,db:Session = Depends(get_db), new_estado: str=Body(...,embed=True)):
-    db_promocion= curd_admin.canviar_estat_promocio(db, user_id, new_estado)
-    if not db_promocio:
+def cambiar_estat_promocio(user_id: int,db:Session = Depends(get_db), new_estado: str=Body(...,embed=True)):
+    db_promocion= curd_admin.cambiar_estat_promocio(db, user_id, new_estado)
+    if not db_promocion:
         raise HTTPException(status_code=404, detail="Promocion no encontrada")
     db.commit()
-    db.refresh(db_promocio)
-    return db_promocio
+    db.refresh(db_promocion)
+    return db_promocion
