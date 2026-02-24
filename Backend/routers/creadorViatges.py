@@ -3,10 +3,11 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from auth.deps import get_current_user
 import crud.creadorViatges as crud 
+from schemas.UsuariViatge import ViatgeCreate, ViatgeOut
 
 router = APIRouter(prefix='/creator', tags=["Creador_Viatges"])
 
-@router.post("/trips")
+@router.post("/trips", response_model=ViatgeOut)
 def crear_viatge(data: dict, db: Session = Depends(get_db), usuari = Depends(get_current_user)):
     if usuari.rol not in ["Creador", "Admin"]:
         raise HTTPException(
@@ -16,7 +17,7 @@ def crear_viatge(data: dict, db: Session = Depends(get_db), usuari = Depends(get
     
     return crud.crear_viatge(db, data, usuari.id)
 
-@router.put("/trips/{id}")
+@router.put("/trips/{id}", response_model=ViatgeOut)
 def editar_viatge(id: int, data: dict, db: Session = Depends(get_db), usuari = Depends(get_current_user)):
     if usuari.rol not in ["Creador", "Admin"]:
         raise HTTPException(status_code=403, detail="No tens permisos")

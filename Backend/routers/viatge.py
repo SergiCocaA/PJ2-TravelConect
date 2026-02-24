@@ -5,6 +5,7 @@ from auth.deps import get_current_user
 import models.viatge as models_viatge
 import models.usuari as models_usuari
 import crud.viatge as crud
+from schemas.viatge import UsuariViatgeOut
 
 router = APIRouter(tags=["Viatge"])
 
@@ -18,7 +19,7 @@ def viatges_disponibles(db: Session = Depends(get_db)):
 def viatge_de(id: int, db: Session = Depends(get_db)):
     return crud.get_viatge_por_id(db, id)
 
-@router.post("/trips/{id}/enroll")
+@router.post("/trips/{id}/enroll", response_model=UsuariViatgeOut)
 def inscribir_viatge(id: int, db: Session = Depends(get_db), user: models_usuari.Usuari = Depends(get_current_user)):
     return crud.insribir_viatge(db, user, id)
 
