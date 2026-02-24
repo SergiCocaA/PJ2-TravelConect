@@ -7,7 +7,7 @@ def get_missatges(db:Session):
 
 def get_missatge_per_viatge(db:Session,viatge_id:int):
     return (db.query(MissatgeXat).options(joinedload(MissatgeXat.autor))
-    .filter(MissatgeXat.viatge_id == viatge_id)
+    .filter(MissatgeXat.viatge_xat == viatge_id)
     .order_by(MissatgeXat.timestamp.asc()).all())
 
 def create_missatge(db:Session,missatge:MissatgeXatCreate,autor_id:int,viatge_id:int):

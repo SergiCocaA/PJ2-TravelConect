@@ -13,7 +13,7 @@ def change_rol(db:Session, user_id:int, new_rol:str):
 def get_promocions(db:Session):
     return db.query(PeticioPromo).all()
 
-def canviar_estat_promocio(db:Session, peticio_id:int, new_estado:str):
-    promocio = db.query(PeticioPromo).filter(PeticioPromo.id == peticio_id).first()
+def cambiar_estat_promocio(db:Session, user_id:int, new_estado:str):
+    promocio = db.query(PeticioPromo).filter(PeticioPromo.usuari_solicitant == user_id).first()
     promocio.estat = new_estado
     return promocio
