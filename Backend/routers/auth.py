@@ -5,6 +5,7 @@ from db.database import get_db
 import crud.usuari as crud_usuari
 import models.usuari as models_usuari
 from auth.utils import create_access_token
+from schemas.usuari import UsuariCreate, UsuariOut
 
 router = APIRouter(tags=["Auth"])
 
@@ -24,7 +25,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         "rol": usuari.rol 
     } 
 
-@router.post("/register")
+@router.post("/register", response_model=UsuariOut)
 def register(db: Session = Depends(get_db), data: dict=Body(...)):
     usuari = db.query(models_usuari.Usuari).filter(models_usuari.Usuari.email == data["email"]).first()
     if usuari:

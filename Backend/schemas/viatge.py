@@ -1,7 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 import enum
-
 
 class EstatPlanificacio(str, enum.Enum):
     PLANIFICANT = "Planificant"
@@ -15,21 +14,15 @@ class ViatgeBase(BaseModel):
     data_inici: str
     data_fi: str
     descripcio: Optional[str] = None
-    estat: EstatPlanificacio.PLANIFICANT
+    estat: EstatPlanificacio = EstatPlanificacio.PLANIFICANT
 
 class ViatgeCreate(ViatgeBase):
-    nom: str
-    desti: str
-    maxim_participants: int     
+    maxim_participants: int = 10 
 
 class ViatgeOut(ViatgeBase):
-    viatge_id: int 
+    id: int 
+    creador_id: int
+    maxim_participants: int
 
     class Config:
-        from_attributes = True
-
-class ViatgeResponse(ViatgeBase):
-    viatge_id: int 
-
-    class Config:
-        from_attributes = True
+        from_attributes = True 
