@@ -7,14 +7,14 @@ from schemas.usuari import UsuariResponse
 
 router = APIRouter(tags=["Administrador"])
 
-@router.get("/users")
+@router.get("/users", response_model=list[UsuariResponse])
 def get_users(db: Session = Depends(get_db)):
     db_users = curd_admin.get_users(db)
     if not db_users:
         raise HTTPException(status_code=404, detail="Usuarios no encontrados")
     return db_users
 
-@router.put("/users/{user_id}/promote")
+@router.put("/users/{user_id}/promote", response_model=UsuariResponse)
 def change_rol( user_id: int,db: Session =Depends(get_db), new_rol: str=Body(...,embed=True)):
     db_rol = curd_admin.change_rol(db, user_id,new_rol)
     if not db_rol:
