@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from auth.deps import get_current_user
 import crud.creadorViatges as crud 
-from schemas.UsuariViatge import ViatgeCreate, ViatgeOut
+from schemas.viatge import ViatgeOut
 
 router = APIRouter(prefix='/creator', tags=["Creador_Viatges"])
 
