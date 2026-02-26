@@ -21,7 +21,13 @@ def viatge_de(id: int, db: Session = Depends(get_db)):
 
 @router.post("/trips/{id}/enroll", response_model=ViatgeOut)
 def inscribir_viatge(id: int, db: Session = Depends(get_db), user: models_usuari.Usuari = Depends(get_current_user)):
-    return crud.insribir_viatge(db, user, id)
+    probar = crud.insribir_viatge(db, user, id)
+    if probar:
+        raise HTTPException(
+            status_code=400, 
+            detail="El usuario ya está inscrito en este viaje"
+        )
+    return probar
 
 @router.post("/trips/{id}/leave")
 def desinscribir_viatge(id: int, db: Session = Depends(get_db), user: models_usuari.Usuari = Depends(get_current_user)):
