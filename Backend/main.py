@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import administrador, usuari, auth, viatge, creadorViatges, missatges
 from db.database import Base, engine
-from models.UsuariViatge import UsuariViatge
+from models.usuariViatge import UsuariViatge
 
 app = FastAPI(title="TravelConnect API")
 
