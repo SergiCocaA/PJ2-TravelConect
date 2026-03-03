@@ -4,6 +4,8 @@ import { AuthProvider } from './contexto/auth';
 import RutaProtegida from './componentes/rutaProtegida';
 import BarraNavegacion from './componentes/diseno/barraNav'; 
 import Login from './paginas/auth/login';
+import Register from './paginas/auth/register';
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<h1>Página de Inicio</h1>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           
           <Route element={<RutaProtegida rolesPermitidos={['Viatger', 'Creador', 'Admin']} />}>
             <Route path="/dashboard" element={<h1>Panel de Control</h1>} />

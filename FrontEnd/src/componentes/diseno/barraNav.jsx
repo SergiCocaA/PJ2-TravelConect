@@ -11,26 +11,63 @@ const BarraNavegacion = () => {
     navigate('/login');
   };
 
+  // Estilos básicos para que no se vea "vacío"
+  const navStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '0 20px',
+    backgroundColor: '#2c3e50',
+    color: 'white',
+    height: '60px'
+  };
+
+  const linkStyle = {
+    color: 'white',
+    textDecoration: 'none',
+    marginRight: '15px',
+    fontWeight: 'bold'
+  };
+
   return (
-    <nav style={{ 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      padding: '1rem', 
-      backgroundColor: '#333', 
-      color: 'white' 
-    }}>
+    <nav style={navStyle}>
       <div>
-        <Link to="/" style={{ color: 'white', marginRight: '10px' }}>Inicio</Link>
-        {usuario && <Link to="/dashboard" style={{ color: 'white' }}>Dashboard</Link>}
+        {/* Enlace a la página de inicio pública */}
+        <Link to="/" style={linkStyle}>Inicio</Link>
+        
+        {/* Solo mostrar Dashboard si el usuario está logueado */}
+        {usuario && (
+          <Link to="/dashboard" style={linkStyle}>Mis Viajes</Link>
+        )}
       </div>
+
       <div>
-        {usuario ? (
+        {!usuario ? (
           <>
-            <span style={{ marginRight: '10px' }}>Hola, {usuario.nombre}</span>
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+            {/* Estos son los enlaces que te faltaban en el frontend */}
+            <Link to="/login" style={linkStyle}>Iniciar Sesión</Link>
+            <Link to="/register" style={linkStyle}>Registrarse</Link>
           </>
         ) : (
-          <Link to="/login" style={{ color: 'white' }}>Iniciar Sesión</Link>
+          <>
+            <span style={{ marginRight: '10px' }}> {usuario.nombre}</span>
+            {usuario.rol === 'Admin' && (
+              <Link to="/admin" style={linkStyle}>Panel Admin</Link>
+            )}
+            <button 
+              onClick={handleLogout}
+              style={{ 
+                backgroundColor: '#e74c3c', 
+                color: 'white', 
+                border: 'none', 
+                padding: '5px 10px', 
+                cursor: 'pointer',
+                borderRadius: '4px'
+              }}
+            >
+              Cerrar Sesión
+            </button>
+          </>
         )}
       </div>
     </nav>
