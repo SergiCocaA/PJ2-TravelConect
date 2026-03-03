@@ -34,10 +34,10 @@ const BarraNavegacion = () => {
       <div>
         {/* Enlace a la página de inicio pública */}
         <Link to="/" style={linkStyle}>Inicio</Link>
-        
+
         {/* Solo mostrar Dashboard si el usuario está logueado */}
         {usuario && (
-          <Link to="/dashboard" style={linkStyle}>Mis Viajes</Link>
+          <Link to="/paginaInicio" style={linkStyle}>Viajes</Link>
         )}
       </div>
 
@@ -54,13 +54,13 @@ const BarraNavegacion = () => {
             {usuario.rol === 'Admin' && (
               <Link to="/admin" style={linkStyle}>Panel Admin</Link>
             )}
-            <button 
+            <button
               onClick={handleLogout}
-              style={{ 
-                backgroundColor: '#e74c3c', 
-                color: 'white', 
-                border: 'none', 
-                padding: '5px 10px', 
+              style={{
+                backgroundColor: '#e74c3c',
+                color: 'white',
+                border: 'none',
+                padding: '5px 10px',
                 cursor: 'pointer',
                 borderRadius: '4px'
               }}
