@@ -19,8 +19,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Ajusta la URL a tu endpoint de FastAPI (ej: http://localhost:8000/usuarios/)
-      await axios.post('http://localhost:8000/usuarios/', formData);
+      // Ajusta la URL a tu endpoint de FastAPI (ej: http://localhost:8000/users)
+      await axios.post('http://localhost:8000/users', formData);
       alert('Registro con éxito. Ahora puedes iniciar sesión.');
       navigate('/login');
     } catch (err) {
