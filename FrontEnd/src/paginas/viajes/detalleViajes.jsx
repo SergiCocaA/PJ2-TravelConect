@@ -16,8 +16,6 @@ const DetalleViaje = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // En main.py: prefix="/viatge"
-        // En viatge.py: router.get("/trips/{id}")
         const res = await api.get(`/viatge/trips/${id}`);
         setViaje(res.data);
       } catch (err) {
@@ -31,7 +29,6 @@ const DetalleViaje = () => {
 
   const handleEnroll = async () => {
     try {
-      // Ruta final: /viatge/trips/{id}/enroll
       await api.post(`/viatge/trips/${id}/enroll`);
       setIsEnrolled(true);
       alert('¡Te has inscrito con éxito!');
@@ -50,11 +47,17 @@ const DetalleViaje = () => {
     <Container className="mb-5">
       <Row className="mb-4">
         <Col lg={8}>
-          <h1 className="mb-3">{viaje.titol}</h1>
+          {/* El backend usa 'nom' */}
+          <h1 className="mb-3">{viaje.nom}</h1>
           <div className="d-flex gap-2 mb-3">
-            <Badge bg="info">{viaje.destinacio}</Badge>
-            <Badge bg="success">{viaje.preu}€</Badge>
-            <Badge bg="secondary">{new Date(viaje.data_inici).toLocaleDateString()} - {new Date(viaje.data_final).toLocaleDateString()}</Badge>
+            {/* El backend usa 'desti' */}
+            <Badge bg="info">{viaje.desti}</Badge>
+            <Badge bg="success">{viaje.preu || 'N/A'}€</Badge>
+            {/* El backend usa 'data_fi' */}
+            <Badge bg="secondary">
+              {viaje.data_inici ? new Date(viaje.data_inici).toLocaleDateString() : 'TBD'} - 
+              {viaje.data_fi ? new Date(viaje.data_fi).toLocaleDateString() : 'TBD'}
+            </Badge>
           </div>
           
           {viaje.imagen_url && (
@@ -92,8 +95,10 @@ const DetalleViaje = () => {
               
               <hr />
               <div className="text-muted small">
-                <p>Capacidad: {viaje.capacitat} personas</p>
-                <p>Destino: {viaje.destinacio}</p>
+                {/* El backend usa 'maxim_participants' */}
+                <p>Capacidad: {viaje.maxim_participants} personas</p>
+                <p>Destino: {viaje.desti}</p>
+                <p>Estado: {viaje.estat}</p>
               </div>
             </Card.Body>
           </Card>

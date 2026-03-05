@@ -7,13 +7,13 @@ const EditarViaje = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    titol: '',
+    nom: '',
     descripcio: '',
-    destinacio: '',
+    desti: '',
     data_inici: '',
-    data_final: '',
+    data_fi: '',
     preu: '',
-    capacitat: '',
+    maxim_participants: '',
     imagen_url: ''
   });
   const [loading, setLoading] = useState(true);
@@ -23,28 +23,34 @@ const EditarViaje = () => {
   useEffect(() => {
     const fetchViaje = async () => {
       try {
-        const respuesta = await api.get(`/viatge/${id}`);
+        const respuesta = await api.get(`/viatge/trips/${id}`);
         const viaje = respuesta.data;
         
-        // Formatear fechas para el input de tipo date (YYYY-MM-DD)
         const formatFecha = (fechaStr) => {
           if (!fechaStr) return '';
-          return new Date(fechaStr).toISOString().split('T')[0];
+          try {
+              const partes = fechaStr.split('/');
+              if (partes.length === 3) {
+                  return `${partes[2]}-${partes[1]}-${partes[0]}`;
+              }
+              return new Date(fechaStr).toISOString().split('T')[0];
+          } catch (e) {
+              return fechaStr;
+          }
         };
 
         setFormData({
-          titol: viaje.titol || '',
+          nom: viaje.nom || '',
           descripcio: viaje.descripcio || '',
-          destinacio: viaje.destinacio || '',
+          desti: viaje.desti || '',
           data_inici: formatFecha(viaje.data_inici),
-          data_final: formatFecha(viaje.data_final),
+          data_fi: formatFecha(viaje.data_fi),
           preu: viaje.preu || '',
-          capacitat: viaje.capacitat || '',
+          maxim_participants: viaje.maxim_participants || '',
           imagen_url: viaje.imagen_url || ''
         });
       } catch (err) {
         setError('Error al cargar los datos del viaje');
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -63,10 +69,11 @@ const EditarViaje = () => {
     setError('');
 
     try {
-      await api.put(`/viatge/${id}`, {
+      // Ruta final: /creadorViatges/creator/trips/{id}
+      await api.put(`/creadorViatges/creator/trips/${id}`, {
         ...formData,
-        preu: parseFloat(formData.preu),
-        capacitat: parseInt(formData.capacitat)
+        preu: parseFloat(formData.preu || 0),
+        maxim_participants: parseInt(formData.maxim_participants || 10)
       });
       alert('Viaje actualizado con éxito');
       navigate(`/trips/${id}`);
@@ -77,14 +84,7 @@ const EditarViaje = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <Spinner animation="border" variant="primary" />
-        <p className="mt-2">Cargando datos del viaje...</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
 
   return (
     <Container className="py-5">
@@ -97,10 +97,10 @@ const EditarViaje = () => {
               
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Título del Viaje</Form.Label>
+                  <Form.Label>Nombre del Viaje</Form.Label>
                   <Form.Control 
-                    name="titol" 
-                    value={formData.titol} 
+                    name="nom" 
+                    value={formData.nom} 
                     onChange={handleChange} 
                     required 
                   />
@@ -123,8 +123,8 @@ const EditarViaje = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Destino</Form.Label>
                       <Form.Control 
-                        name="destinacio" 
-                        value={formData.destinacio} 
+                        name="desti" 
+                        value={formData.desti} 
                         onChange={handleChange} 
                         required 
                       />
@@ -138,7 +138,6 @@ const EditarViaje = () => {
                         name="preu" 
                         value={formData.preu} 
                         onChange={handleChange} 
-                        required 
                       />
                     </Form.Group>
                   </Col>
@@ -162,8 +161,8 @@ const EditarViaje = () => {
                       <Form.Label>Fecha Final</Form.Label>
                       <Form.Control 
                         type="date" 
-                        name="data_final" 
-                        value={formData.data_final} 
+                        name="data_fi" 
+                        value={formData.data_fi} 
                         onChange={handleChange} 
                         required 
                       />
@@ -172,22 +171,13 @@ const EditarViaje = () => {
                 </Row>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Capacidad (personas)</Form.Label>
+                  <Form.Label>Máximo de Participantes</Form.Label>
                   <Form.Control 
                     type="number" 
-                    name="capacitat" 
-                    value={formData.capacitat} 
+                    name="maxim_participants" 
+                    value={formData.maxim_participants} 
                     onChange={handleChange} 
                     required 
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-4">
-                  <Form.Label>URL de la Imagen</Form.Label>
-                  <Form.Control 
-                    name="imagen_url" 
-                    value={formData.imagen_url} 
-                    onChange={handleChange} 
                   />
                 </Form.Group>
 

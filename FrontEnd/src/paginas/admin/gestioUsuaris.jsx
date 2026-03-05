@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Container, Spinner, Alert, Badge, Form } from 'react-bootstrap';
+import { Table, Button, Container, Spinner, Alert, Badge } from 'react-bootstrap';
 import api from '../../servicios/api';
 
 const GestioUsuaris = () => {
@@ -13,7 +13,6 @@ const GestioUsuaris = () => {
 
   const fetchUsuarios = async () => {
     try {
-      // main.py prefix="/admin" + administrador.py router.get("/users")
       const res = await api.get('/admin/users');
       setUsuarios(res.data);
     } catch (err) {
@@ -29,12 +28,11 @@ const GestioUsuaris = () => {
 
   const handleChangeRole = async (id, currentRole) => {
       const newRole = currentRole === 'Viatger' ? 'Creador' : 'Viatger';
+      const roleDisplayName = newRole === 'Viatger' ? 'Viajero' : 'Creador';
       try {
-          // administrador.py: @router.put("/users/{user_id}/promote")
-          // Espera Body(..., embed=True) -> { "new_rol": "..." }
           await api.put(`/admin/users/${id}/promote`, { new_rol: newRole });
           setUsuarios(usuarios.map(u => u.id === id ? { ...u, rol: newRole } : u));
-          alert(`Rol cambiado a ${newRole} con éxito.`);
+          alert(`Rol cambiado a ${roleDisplayName} con éxito.`);
       } catch (err) {
           alert('Error al cambiar rol: ' + (err.response?.data?.detail || err.message));
       }
@@ -68,13 +66,13 @@ const GestioUsuaris = () => {
                 <td>{u.email}</td>
                 <td>
                   <Badge bg={u.rol === 'Admin' ? 'danger' : (u.rol === 'Creador' ? 'warning' : 'info')}>
-                    {u.rol}
+                    {u.rol === 'Viatger' ? 'Viajero' : (u.rol === 'Creador' ? 'Creador' : 'Admin')}
                   </Badge>
                 </td>
                 <td>
                   {u.rol !== 'Admin' && (
                       <Button variant="outline-primary" size="sm" onClick={() => handleChangeRole(u.id, u.rol)}>
-                          Cambiar a {u.rol === 'Viatger' ? 'Creador' : 'Viatger'}
+                          Cambiar a {u.rol === 'Viatger' ? 'Creador' : 'Viajero'}
                       </Button>
                   )}
                 </td>

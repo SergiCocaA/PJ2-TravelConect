@@ -13,7 +13,6 @@ const GestioPeticions = () => {
 
   const fetchPeticions = async () => {
     try {
-      // main.py: /admin + administrador.py: /users/promotions
       const res = await api.get('/admin/users/promotions');
       setPeticions(res.data);
     } catch (err) {
@@ -29,13 +28,10 @@ const GestioPeticions = () => {
 
   const handleAction = async (id, action) => {
     try {
-      // administrador.py: @router.put("/promotions/{user_id}")
-      // Espera un campo 'new_estado' en el Body
       const newStatus = action === 'aprova' ? 'aprovat' : 'denegat';
       await api.put(`/admin/promotions/${id}`, { new_estado: newStatus });
       
       alert(`Petición ${action === 'aprova' ? 'aprobada' : 'denegada'} con éxito.`);
-      // Refrescamos la lista para ver el cambio o quitarla si solo quieres ver pendientes
       fetchPeticions();
     } catch (err) {
       alert(`Error al procesar la petición: ` + (err.response?.data?.detail || err.message));
@@ -68,7 +64,7 @@ const GestioPeticions = () => {
                   <td>{p.missatge_peticio}</td>
                   <td>
                       <Badge bg={p.estat === 'aprovat' ? 'success' : (p.estat === 'denegat' ? 'danger' : 'warning')}>
-                          {p.estat}
+                          {p.estat === 'pendent' ? 'Pendiente' : (p.estat === 'aprovat' ? 'Aprobado' : 'Denegado')}
                       </Badge>
                   </td>
                   <td>

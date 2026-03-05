@@ -9,7 +9,6 @@ const Perfil = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // Estados para la edición
   const [editando, setEditando] = useState(false);
   const [nombre, setNombre] = useState('');
   const [bio, setBio] = useState('');
@@ -38,7 +37,6 @@ const Perfil = () => {
     e.preventDefault();
     setGuardando(true);
     try {
-      // Endpoint: @router.put("/me/{nom}/{bio}") con prefijo /users/users
       await api.put(`/users/users/me/${encodeURIComponent(nombre)}/${encodeURIComponent(bio)}`);
       setPerfil({ ...perfil, full_name: nombre, bio: bio });
       setEditando(false);
@@ -48,6 +46,16 @@ const Perfil = () => {
     } finally {
       setGuardando(false);
     }
+  };
+
+  const getRoleBadge = (rol) => {
+    const roles = {
+        'Admin': { text: 'Administrador', color: 'danger' },
+        'Creador': { text: 'Creador', color: 'warning' },
+        'Viatger': { text: 'Viajero', color: 'info' }
+    };
+    const r = roles[rol] || { text: rol, color: 'secondary' };
+    return <Badge bg={r.color}>{r.text}</Badge>;
   };
 
   if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
@@ -64,7 +72,7 @@ const Perfil = () => {
                 👤
               </div>
               <h2 className="mb-0">{perfil.full_name}</h2>
-              <Badge bg="light" text="dark" className="mt-2">{perfil.rol}</Badge>
+              {getRoleBadge(perfil.rol)}
             </Card.Header>
             <Card.Body className="p-4">
               <div className="d-flex justify-content-between align-items-center mb-4">
@@ -122,9 +130,7 @@ const Perfil = () => {
                       <Row>
                         <Col xs={4} className="text-muted fw-bold">Rol Actual</Col>
                         <Col xs={8}>
-                          <Badge bg={perfil.rol === 'Admin' ? 'danger' : (perfil.rol === 'Creador' ? 'warning' : 'info')}>
-                            {perfil.rol}
-                          </Badge>
+                          {getRoleBadge(perfil.rol)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
