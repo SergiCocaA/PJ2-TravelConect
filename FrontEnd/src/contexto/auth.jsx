@@ -1,18 +1,56 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
-// Creamos el contexto
 export const AuthContext = createContext();
 
-// Creamos el proveedor
 export const AuthProvider = ({ children }) => {
-  // Estado inicial: null (no logueado)
   const [usuario, setUsuario] = useState(null);
+  const [cargando, setCargando] = useState(true);
 
-  const login = (datos) => setUsuario(datos);
-  const logout = () => setUsuario(null);
+  useEffect(() => {
+    // Cargar usuario desde localStorage al iniciar
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        // Verificar si el token ha expirado
+        const currentTime = Date.now() / 1000;
+        if (decoded.exp < currentTime) {
+          logout();
+        } else {
+          setUsuario({
+            id: decoded.sub,
+            username: decoded.username || decoded.sub,
+            role: decoded.role,
+            token: token
+          });
+        }
+      } catch (error) {
+        console.error("Token inválido", error);
+        logout();
+      }
+    }
+    setCargando(false);
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem('token', token);
+    const decoded = jwtDecode(token);
+    setUsuario({
+      id: decoded.sub,
+      username: decoded.username || decoded.sub,
+      role: decoded.role,
+      token: token
+    });
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUsuario(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout }}>
+    <AuthContext.Provider value={{ usuario, login, logout, cargando }}>
       {children}
     </AuthContext.Provider>
   );

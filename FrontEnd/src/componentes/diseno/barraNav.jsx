@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexto/auth';
 
@@ -11,66 +12,54 @@ const BarraNavegacion = () => {
     navigate('/login');
   };
 
-  // Estilos básicos para que no se vea "vacío"
-  const navStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0 20px',
-    backgroundColor: '#2c3e50',
-    color: 'white',
-    height: '60px'
-  };
-
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    marginRight: '15px',
-    fontWeight: 'bold'
-  };
-
   return (
-    <nav style={navStyle}>
-      <div>
-        {/* Enlace a la página de inicio pública */}
-        <Link to="/" style={linkStyle}>Inicio</Link>
-
-        {/* Solo mostrar Dashboard si el usuario está logueado */}
-        {usuario && (
-          <Link to="/paginaInicio" style={linkStyle}>Viajes</Link>
-        )}
-      </div>
-
-      <div>
-        {!usuario ? (
-          <>
-            {/* Estos son los enlaces que te faltaban en el frontend */}
-            <Link to="/login" style={linkStyle}>Iniciar Sesión</Link>
-            <Link to="/register" style={linkStyle}>Registrarse</Link>
-          </>
-        ) : (
-          <>
-            <span style={{ marginRight: '10px' }}> {usuario.nombre}</span>
-            {usuario.rol === 'Admin' && (
-              <Link to="/admin" style={linkStyle}>Panel Admin</Link>
+    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+      <Container>
+        <Navbar.Brand as={Link} to="/">TravelConnect</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/homepage">Inicio</Nav.Link>
+            
+            {usuario && (
+              <>
+                <Nav.Link as={Link} to="/dashboard">Explorar Viajes</Nav.Link>
+                
+                {usuario.role === 'Viatger' && (
+                  <Nav.Link as={Link} to="/promotion">Ser Creador</Nav.Link>
+                )}
+                
+                {usuario.role === 'Creador' && (
+                  <Nav.Link as={Link} to="/trips/create">Crear Viaje</Nav.Link>
+                )}
+                
+                {usuario.role === 'Admin' && (
+                  <NavDropdown title="Administración" id="admin-nav-dropdown">
+                    <NavDropdown.Item as={Link} to="/admin/users">Gestión Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/admin/requests">Gestión Peticiones</NavDropdown.Item>
+                  </NavDropdown>
+                )}
+              </>
             )}
-            <button
-              onClick={handleLogout}
-              style={{
-                backgroundColor: '#e74c3c',
-                color: 'white',
-                border: 'none',
-                padding: '5px 10px',
-                cursor: 'pointer',
-                borderRadius: '4px'
-              }}
-            >
-              Cerrar Sesión
-            </button>
-          </>
-        )}
-      </div>
-    </nav>
+          </Nav>
+          
+          <Nav>
+            {usuario ? (
+              <NavDropdown title={`Hola, ${usuario.username}`} id="user-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/profile">Mi Perfil</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>Cerrar Sesión</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Button as={Link} to="/register" variant="outline-light" className="ms-lg-2">Registrarse</Button>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

@@ -3,7 +3,11 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../contexto/auth';
 
 const RutaProtegida = ({ rolesPermitidos }) => {
-  const { usuario } = useContext(AuthContext);
+  const { usuario, cargando } = useContext(AuthContext);
+
+  if (cargando) {
+    return <div className="text-center mt-5"><div className="spinner-border" role="status"></div></div>;
+  }
 
   // 1. Si no hay usuario, mandamos al login
   if (!usuario) {
@@ -11,7 +15,7 @@ const RutaProtegida = ({ rolesPermitidos }) => {
   }
 
   // 2. Si el rol no coincide, mandamos a la raíz
-  if (rolesPermitidos && !rolesPermitidos.includes(usuario.rol)) {
+  if (rolesPermitidos && !rolesPermitidos.includes(usuario.role)) {
     return <Navigate to="/" replace />;
   }
 

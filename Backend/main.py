@@ -6,6 +6,13 @@ from models.usuariViatge import UsuariViatge
 
 app = FastAPI(title="TravelConnect API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 Base.metadata.create_all(bind=engine)
 
@@ -16,14 +23,6 @@ app.include_router(usuari.router, prefix="/users")
 app.include_router(viatge.router, prefix="/viatge")
 app.include_router(creadorViatges.router, prefix ="/creadorViatges")
 app.include_router(missatges.router, prefix ="/missatges")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.get("/")
 def read_root():
