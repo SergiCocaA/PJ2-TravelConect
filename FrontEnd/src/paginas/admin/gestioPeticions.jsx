@@ -13,10 +13,14 @@ const GestioPeticions = () => {
 
   const fetchPeticions = async () => {
     try {
-      const res = await api.get('/admin/peticions');
+      const res = await api.get('/admin/users/promotions');
       setPeticions(res.data);
     } catch (err) {
-      setError('Error al cargar peticiones.');
+      if (err.response?.status === 404) {
+        setPeticions([]);
+      } else {
+        setError('Error al cargar peticiones.');
+      }
     } finally {
       setLoading(false);
     }
@@ -24,16 +28,17 @@ const GestioPeticions = () => {
 
   const handleAction = async (id, action) => {
     try {
-      // action can be 'aprova' or 'denega'
-      await api.post(`/admin/peticions/${id}/${action}`);
+      const newStatus = action === 'aprova' ? 'aprovat' : 'denegat';
+      await api.put(`/admin/promotions/${id}`, { new_estado: newStatus });
+      
       alert(`Petición ${action === 'aprova' ? 'aprobada' : 'denegada'} con éxito.`);
-      setPeticions(peticions.filter(p => p.id !== id));
+      fetchPeticions();
     } catch (err) {
-      alert(`Error al procesar la petición.`);
+      alert(`Error al procesar la petición: ` + (err.response?.data?.detail || err.message));
     }
   };
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
+  if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
 
   return (
     <Container className="py-4">
@@ -41,27 +46,35 @@ const GestioPeticions = () => {
       {error && <Alert variant="danger">{error}</Alert>}
       
       {peticions.length === 0 ? (
-          <Alert variant="info">No hay peticiones pendientes.</Alert>
+          <Alert variant="info">No hay peticiones de promoción en este momento.</Alert>
       ) : (
           <Table striped bordered hover responsive shadow-sm>
             <thead className="table-dark">
               <tr>
-                <th>Usuario</th>
+                <th>Usuario ID</th>
                 <th>Mensaje / Justificación</th>
-                <th>Fecha</th>
+                <th>Estado Actual</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {peticions.map(p => (
                 <tr key={p.id}>
-                  <td>{p.usuari_username || p.usuari_id}</td>
-                  <td>{p.motiu}</td>
-                  <td>{new Date(p.data_peticio).toLocaleDateString()}</td>
+                  <td>{p.usuari_solicitant}</td>
+                  <td>{p.missatge_peticio}</td>
                   <td>
-                    <Button variant="success" size="sm" onClick={() => handleAction(p.id, 'aprova')}>Aprobar</Button>
-                    {' '}
-                    <Button variant="danger" size="sm" onClick={() => handleAction(p.id, 'denega')}>Denegar</Button>
+                      <Badge bg={p.estat === 'aprovat' ? 'success' : (p.estat === 'denegat' ? 'danger' : 'warning')}>
+                          {p.estat === 'pendent' ? 'Pendiente' : (p.estat === 'aprovat' ? 'Aprobado' : 'Denegado')}
+                      </Badge>
+                  </td>
+                  <td>
+                    {p.estat === 'pendent' && (
+                        <>
+                            <Button variant="success" size="sm" onClick={() => handleAction(p.id, 'aprova')}>Aprobar</Button>
+                            {' '}
+                            <Button variant="danger" size="sm" onClick={() => handleAction(p.id, 'denega')}>Denegar</Button>
+                        </>
+                    )}
                   </td>
                 </tr>
               ))}

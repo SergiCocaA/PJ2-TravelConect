@@ -11,10 +11,13 @@ const ListaViajes = () => {
   useEffect(() => {
     const fetchViajes = async () => {
       try {
-        const respuesta = await api.get('/viatge');
+        // En main.py: prefix="/viatge"
+        // En viatge.py: router.get("/trips")
+        // Ruta final: /viatge/trips
+        const respuesta = await api.get('/viatge/trips');
         setViajes(respuesta.data);
       } catch (err) {
-        setError('Error al cargar los viajes');
+        setError('Error al cargar los viajes. Asegúrate de estar logueado.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -37,7 +40,7 @@ const ListaViajes = () => {
       <h2 className="mb-4">Explorar Viajes</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       
-      {viajes.length === 0 ? (
+      {viajes.length === 0 && !error ? (
         <Alert variant="info">No hay viajes disponibles en este momento.</Alert>
       ) : (
         <Row xs={1} md={2} lg={3} className="g-4">

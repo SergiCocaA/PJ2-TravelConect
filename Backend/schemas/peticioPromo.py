@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 import enum
 
-#Clase padre que heredan las demas
+# Clase padre que heredan las demas
 class EstatPeticio(str, enum.Enum):
-    PENDENT = "Pendent"
-    APROBAT = "Aprobada"
-    DENEGAT = "Denegat"
+    PENDENT = "pendent"
+    APROBAT = "aprovat"
+    DENEGAT = "denegat"
     
 
 class PeticioPromoBase(BaseModel):
@@ -14,14 +14,11 @@ class PeticioPromoBase(BaseModel):
 
 class PeticioPromoCreate(PeticioPromoBase):
     pass
-    #usuari_solicitant: int el autor se saca del token para mas seguridad
 
-#Enviar datos frontEnd
+# En Pydantic v2 se recomienda usar ConfigDict
 class PeticioPromoResponse(PeticioPromoBase):
     id: int
-    estat: EstatPeticio
+    estat: str # Cambiamos a str para que sea menos estricto con el Enum
     usuari_solicitant: int
 
-    class Config:
-        orm_mode = True
-        #Permite que pydantic entienda y use objetos de sqlalchemy para transformarlos en objetos de JSON
+    model_config = ConfigDict(from_attributes=True)

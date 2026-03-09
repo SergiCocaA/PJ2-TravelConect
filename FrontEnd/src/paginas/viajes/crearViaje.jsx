@@ -5,13 +5,13 @@ import api from '../../servicios/api';
 
 const CrearViaje = () => {
   const [formData, setFormData] = useState({
-    titol: '',
+    nom: '',
     descripcio: '',
-    destinacio: '',
+    desti: '',
     data_inici: '',
-    data_final: '',
+    data_fi: '',
     preu: '',
-    capacitat: '',
+    maxim_participants: '',
     imagen_url: ''
   });
   const [error, setError] = useState('');
@@ -29,10 +29,13 @@ const CrearViaje = () => {
     setError('');
 
     try {
-      await api.post('/viatge', {
+      // En main.py: prefix="/creadorViatges"
+      // En creadorViatges.py: prefix="/creator" + router.post("/trips")
+      // Ruta final: /creadorViatges/creator/trips
+      await api.post('/creadorViatges/creator/trips', {
         ...formData,
-        preu: parseFloat(formData.preu),
-        capacitat: parseInt(formData.capacitat)
+        preu: parseFloat(formData.preu || 0),
+        maxim_participants: parseInt(formData.maxim_participants || 10)
       });
       alert('Viaje creado con éxito');
       navigate('/dashboard');
@@ -54,13 +57,12 @@ const CrearViaje = () => {
               
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Título del Viaje</Form.Label>
+                  <Form.Label>Nombre del Viaje</Form.Label>
                   <Form.Control 
-                    name="titol" 
-                    value={formData.titol} 
+                    name="nom" 
+                    value={formData.nom} 
                     onChange={handleChange} 
                     required 
-                    placeholder="Ej: Aventura en los Alpes"
                   />
                 </Form.Group>
 
@@ -81,8 +83,8 @@ const CrearViaje = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Destino</Form.Label>
                       <Form.Control 
-                        name="destinacio" 
-                        value={formData.destinacio} 
+                        name="desti" 
+                        value={formData.desti} 
                         onChange={handleChange} 
                         required 
                       />
@@ -96,7 +98,6 @@ const CrearViaje = () => {
                         name="preu" 
                         value={formData.preu} 
                         onChange={handleChange} 
-                        required 
                       />
                     </Form.Group>
                   </Col>
@@ -120,8 +121,8 @@ const CrearViaje = () => {
                       <Form.Label>Fecha Final</Form.Label>
                       <Form.Control 
                         type="date" 
-                        name="data_final" 
-                        value={formData.data_final} 
+                        name="data_fi" 
+                        value={formData.data_fi} 
                         onChange={handleChange} 
                         required 
                       />
@@ -130,11 +131,11 @@ const CrearViaje = () => {
                 </Row>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Capacidad (personas)</Form.Label>
+                  <Form.Label>Máximo de Participantes</Form.Label>
                   <Form.Control 
                     type="number" 
-                    name="capacitat" 
-                    value={formData.capacitat} 
+                    name="maxim_participants" 
+                    value={formData.maxim_participants} 
                     onChange={handleChange} 
                     required 
                   />
@@ -146,7 +147,6 @@ const CrearViaje = () => {
                     name="imagen_url" 
                     value={formData.imagen_url} 
                     onChange={handleChange} 
-                    placeholder="https://..."
                   />
                 </Form.Group>
 

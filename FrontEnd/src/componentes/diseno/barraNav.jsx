@@ -29,7 +29,7 @@ const BarraNavegacion = () => {
                   <Nav.Link as={Link} to="/promotion">Ser Creador</Nav.Link>
                 )}
                 
-                {usuario.role === 'Creador' && (
+                {(usuario.role === 'Creador' || usuario.role === 'Admin') && (
                   <Nav.Link as={Link} to="/trips/create">Crear Viaje</Nav.Link>
                 )}
                 
@@ -52,7 +52,7 @@ const BarraNavegacion = () => {
               </NavDropdown>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login">Iniciar Sesión</Nav.Link>
                 <Button as={Link} to="/register" variant="outline-light" className="ms-lg-2">Registrarse</Button>
               </>
             )}

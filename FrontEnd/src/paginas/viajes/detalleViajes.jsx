@@ -16,21 +16,8 @@ const DetalleViaje = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get(`/viatge/${id}`);
+        const res = await api.get(`/viatge/trips/${id}`);
         setViaje(res.data);
-        
-        // Verificar si el usuario ya está inscrito
-        if (usuario) {
-            // Esto dependerá de cómo el backend maneje las inscripciones
-            // Por ahora simulamos que buscamos al usuario entre los inscritos si el backend lo devuelve
-            // O hacemos una llamada separada
-            try {
-                const resInscripcio = await api.get(`/viatge/${id}/check-enrollment`);
-                setIsEnrolled(resInscripcio.data.enrolled);
-            } catch (e) {
-                // Si el endpoint no existe, simplemente manejamos con el estado
-            }
-        }
       } catch (err) {
         setError('No se pudo cargar la información del viaje.');
       } finally {
@@ -42,7 +29,7 @@ const DetalleViaje = () => {
 
   const handleEnroll = async () => {
     try {
-      await api.post(`/viatge/${id}/enroll`);
+      await api.post(`/viatge/trips/${id}/enroll`);
       setIsEnrolled(true);
       alert('¡Te has inscrito con éxito!');
     } catch (err) {
@@ -60,11 +47,17 @@ const DetalleViaje = () => {
     <Container className="mb-5">
       <Row className="mb-4">
         <Col lg={8}>
-          <h1 className="mb-3">{viaje.titol}</h1>
+          {/* El backend usa 'nom' */}
+          <h1 className="mb-3">{viaje.nom}</h1>
           <div className="d-flex gap-2 mb-3">
-            <Badge bg="info">{viaje.destinacio}</Badge>
-            <Badge bg="success">{viaje.preu}€</Badge>
-            <Badge bg="secondary">{new Date(viaje.data_inici).toLocaleDateString()} - {new Date(viaje.data_final).toLocaleDateString()}</Badge>
+            {/* El backend usa 'desti' */}
+            <Badge bg="info">{viaje.desti}</Badge>
+            <Badge bg="success">{viaje.preu || 'N/A'}€</Badge>
+            {/* El backend usa 'data_fi' */}
+            <Badge bg="secondary">
+              {viaje.data_inici ? new Date(viaje.data_inici).toLocaleDateString() : 'TBD'} - 
+              {viaje.data_fi ? new Date(viaje.data_fi).toLocaleDateString() : 'TBD'}
+            </Badge>
           </div>
           
           {viaje.imagen_url && (
@@ -73,16 +66,6 @@ const DetalleViaje = () => {
           
           <h3>Descripción</h3>
           <p className="lead">{viaje.descripcio}</p>
-          
-          <div className="mt-4">
-            <h5>Lo que incluye:</h5>
-            {/* Supongamos que hay una lista de servicios o similar */}
-            <ListGroup variant="flush">
-                <ListGroup.Item>✅ Guía profesional</ListGroup.Item>
-                <ListGroup.Item>✅ Alojamiento</ListGroup.Item>
-                <ListGroup.Item>✅ Seguro de viaje</ListGroup.Item>
-            </ListGroup>
-          </div>
         </Col>
         
         <Col lg={4}>
@@ -90,7 +73,7 @@ const DetalleViaje = () => {
             <Card.Body>
               <h4 className="mb-3 text-center">Acciones</h4>
               
-              {usuario.role === 'Viatger' && (
+              {usuario?.role === 'Viatger' && (
                 <>
                   {!isEnrolled ? (
                     <Button variant="primary" size="lg" className="w-100 mb-3" onClick={handleEnroll}>
@@ -112,21 +95,13 @@ const DetalleViaje = () => {
               
               <hr />
               <div className="text-muted small">
-                <p>Capacidad: {viaje.capacitat} personas</p>
-                <p>Plazas disponibles: {viaje.places_lliures || viaje.capacitat}</p>
+                {/* El backend usa 'maxim_participants' */}
+                <p>Capacidad: {viaje.maxim_participants} personas</p>
+                <p>Destino: {viaje.desti}</p>
+                <p>Estado: {viaje.estat}</p>
               </div>
             </Card.Body>
           </Card>
-          
-          {isEnrolled && (
-              <Card className="mt-4 shadow-sm">
-                  <Card.Header bg="light">Chat del Grupo</Card.Header>
-                  <Card.Body>
-                      <p className="text-muted small">Próximamente: Chat interactivo para viajeros inscritos.</p>
-                      {/* Aquí iría el componente TripChat */}
-                  </Card.Body>
-              </Card>
-          )}
         </Col>
       </Row>
     </Container>

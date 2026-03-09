@@ -8,12 +8,13 @@ const TarjetaViaje = ({ viaje }) => {
   return (
     <Card className="h-100 shadow-sm hover-shadow transition-all">
       {viaje.imagen_url && (
-        <Card.Img variant="top" src={viaje.imagen_url} alt={viaje.titol} style={{ height: '200px', objectFit: 'cover' }} />
+        <Card.Img variant="top" src={viaje.imagen_url} alt={viaje.nom} style={{ height: '200px', objectFit: 'cover' }} />
       )}
       <Card.Body className="d-flex flex-column">
         <div className="d-flex justify-content-between align-items-start mb-2">
-          <Card.Title className="mb-0">{viaje.titol}</Card.Title>
-          <Badge bg="success">{viaje.preu}€</Badge>
+          {/* El backend usa 'nom' en lugar de 'titol' */}
+          <Card.Title className="mb-0">{viaje.nom}</Card.Title>
+          <Badge bg="success">{viaje.preu || 'N/A'}€</Badge>
         </div>
         
         <Card.Text className="text-muted small mb-3">
@@ -23,8 +24,9 @@ const TarjetaViaje = ({ viaje }) => {
         
         <div className="mt-auto">
           <div className="d-flex justify-content-between align-items-center mb-3 text-secondary small">
-            <span>📅 {new Date(viaje.data_inici).toLocaleDateString()}</span>
-            <span>📍 {viaje.destinacio}</span>
+            <span>📅 {viaje.data_inici ? new Date(viaje.data_inici).toLocaleDateString() : 'TBD'}</span>
+            {/* El backend usa 'desti' en lugar de 'destinacio' */}
+            <span>📍 {viaje.desti}</span>
           </div>
           <Button 
             variant="outline-primary" 
