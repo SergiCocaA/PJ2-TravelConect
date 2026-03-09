@@ -29,7 +29,7 @@ const BarraNavegacion = () => {
                   <Nav.Link as={Link} to="/promotion">Ser Creador</Nav.Link>
                 )}
                 
-                {usuario.role === 'Creador' && (
+                {(usuario.role === 'Creador' || usuario.role === 'Admin') && (
                   <Nav.Link as={Link} to="/trips/create">Crear Viaje</Nav.Link>
                 )}
                 

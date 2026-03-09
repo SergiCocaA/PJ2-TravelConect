@@ -5,14 +5,13 @@ import api from '../../servicios/api';
 
 const CrearViaje = () => {
   const [formData, setFormData] = useState({
-    titol: '',
+    nom: '',
     descripcio: '',
-    destinacio: '',
+    desti: '',
     data_inici: '',
-    data_final: '',
-    preu: '',
-    capacitat: '',
-    imagen_url: ''
+    data_fi: '',
+    maxim_participants: 10,
+    estat: 'Planificant'
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,10 +28,9 @@ const CrearViaje = () => {
     setError('');
 
     try {
-      await api.post('/viatge', {
+      await api.post('/creadorViatges/creator/trips', {
         ...formData,
-        preu: parseFloat(formData.preu),
-        capacitat: parseInt(formData.capacitat)
+        maxim_participants: parseInt(formData.maxim_participants)
       });
       alert('Viaje creado con éxito');
       navigate('/dashboard');
@@ -45,7 +43,7 @@ const CrearViaje = () => {
 
   return (
     <Container className="py-5">
-      <Row justify="center">
+      <Row>
         <Col md={8} lg={6} className="mx-auto">
           <Card className="shadow-sm">
             <Card.Body className="p-4">
@@ -54,10 +52,10 @@ const CrearViaje = () => {
               
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Título del Viaje</Form.Label>
+                  <Form.Label>Nombre del Viaje</Form.Label>
                   <Form.Control 
-                    name="titol" 
-                    value={formData.titol} 
+                    name="nom" 
+                    value={formData.nom} 
                     onChange={handleChange} 
                     required 
                     placeholder="Ej: Aventura en los Alpes"
@@ -76,31 +74,15 @@ const CrearViaje = () => {
                   />
                 </Form.Group>
 
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Destino</Form.Label>
-                      <Form.Control 
-                        name="destinacio" 
-                        value={formData.destinacio} 
-                        onChange={handleChange} 
-                        required 
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Precio (€)</Form.Label>
-                      <Form.Control 
-                        type="number" 
-                        name="preu" 
-                        value={formData.preu} 
-                        onChange={handleChange} 
-                        required 
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+                <Form.Group className="mb-3">
+                  <Form.Label>Destino</Form.Label>
+                  <Form.Control 
+                    name="desti" 
+                    value={formData.desti} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                </Form.Group>
 
                 <Row>
                   <Col md={6}>
@@ -120,8 +102,8 @@ const CrearViaje = () => {
                       <Form.Label>Fecha Final</Form.Label>
                       <Form.Control 
                         type="date" 
-                        name="data_final" 
-                        value={formData.data_final} 
+                        name="data_fi" 
+                        value={formData.data_fi} 
                         onChange={handleChange} 
                         required 
                       />
@@ -129,28 +111,33 @@ const CrearViaje = () => {
                   </Col>
                 </Row>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Capacidad (personas)</Form.Label>
-                  <Form.Control 
-                    type="number" 
-                    name="capacitat" 
-                    value={formData.capacitat} 
-                    onChange={handleChange} 
-                    required 
-                  />
-                </Form.Group>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Capacidad Máxima</Form.Label>
+                      <Form.Control 
+                        type="number" 
+                        name="maxim_participants" 
+                        value={formData.maxim_participants} 
+                        onChange={handleChange} 
+                        required 
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Estado</Form.Label>
+                      <Form.Select name="estat" value={formData.estat} onChange={handleChange}>
+                        <option value="Planificant">Planificant</option>
+                        <option value="Actiu">Actiu</option>
+                        <option value="Complet">Complet</option>
+                        <option value="Cancel·lat">Cancel·lat</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-                <Form.Group className="mb-4">
-                  <Form.Label>URL de la Imagen (opcional)</Form.Label>
-                  <Form.Control 
-                    name="imagen_url" 
-                    value={formData.imagen_url} 
-                    onChange={handleChange} 
-                    placeholder="https://..."
-                  />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100 py-2" disabled={loading}>
+                <Button variant="primary" type="submit" className="w-100 mt-4 py-2" disabled={loading}>
                   {loading ? 'Creando...' : 'Publicar Viaje'}
                 </Button>
               </Form>

@@ -42,8 +42,8 @@ function App() {
               <Route path="/promotion" element={<FormularioPeti />} />
             </Route>
 
-            {/* Rutes Protegides (Creador) */}
-            <Route element={<RutaProtegida rolesPermitidos={['Creador']} />}>
+            {/* Rutes Protegides (Creador y Admin) */}
+            <Route element={<RutaProtegida rolesPermitidos={['Creador', 'Admin']} />}>
               <Route path="/trips/create" element={<CrearViaje />} />
               <Route path="/trips/:id/edit" element={<EditarViaje />} />
             </Route>

@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Spinner, Alert, Container } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { Row, Col, Spinner, Alert, Container, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import api from '../../servicios/api';
 import TarjetaViaje from '../../componentes/tarjetaViaje';
+import { AuthContext } from '../../contexto/auth';
 
 const ListaViajes = () => {
   const [viajes, setViajes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { usuario } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchViajes = async () => {
       try {
-        const respuesta = await api.get('/viatge');
+        const respuesta = await api.get('/viatge/trips');
         setViajes(respuesta.data);
       } catch (err) {
         setError('Error al cargar los viajes');
@@ -32,9 +36,19 @@ const ListaViajes = () => {
     );
   }
 
+  const mostrarBotonCrear = usuario && (usuario.role === 'Creador' || usuario.role === 'Admin');
+
   return (
     <Container>
-      <h2 className="mb-4">Explorar Viajes</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Explorar Viajes</h2>
+        {mostrarBotonCrear && (
+          <Button variant="success" onClick={() => navigate('/trips/create')}>
+            + Crear Nuevo Viaje
+          </Button>
+        )}
+      </div>
+
       {error && <Alert variant="danger">{error}</Alert>}
       
       {viajes.length === 0 ? (

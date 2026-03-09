@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
           setUsuario({
             id: decoded.sub,
             username: decoded.username || decoded.sub,
-            role: decoded.role,
+            role: decoded.rol || decoded.role,
             token: token
           });
         }
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     setUsuario({
       id: decoded.sub,
       username: decoded.username || decoded.sub,
-      role: decoded.role,
+      role: decoded.rol || decoded.role,
       token: token
     });
   };
