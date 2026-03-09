@@ -16,7 +16,9 @@ const FormularioPeti = () => {
     setError('');
     
     try {
-      await api.post('/promotion', { motiu });
+      // El backend espera la ruta /viatge/promote-request
+      // Y el campo se llama 'missatge' dentro de un Body (embed=True significa { "missatge": "..." })
+      await api.post('/viatge/promote-request', { missatge: motiu });
       setSuccess(true);
       setTimeout(() => navigate('/dashboard'), 3000);
     } catch (err) {

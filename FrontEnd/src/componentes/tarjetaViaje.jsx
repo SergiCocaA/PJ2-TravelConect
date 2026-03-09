@@ -16,12 +16,18 @@ const TarjetaViaje = ({ viaje }) => {
       )}
       <Card.Body className="d-flex flex-column">
         <div className="d-flex justify-content-between align-items-start mb-2">
+<<<<<<< HEAD
           <Card.Title className="mb-0">{viaje.nom}</Card.Title>
           {viaje.estat && (
             <Badge bg={viaje.estat === 'Actiu' ? 'success' : 'secondary'}>
               {viaje.estat}
             </Badge>
           )}
+=======
+          {/* El backend usa 'nom' en lugar de 'titol' */}
+          <Card.Title className="mb-0">{viaje.nom}</Card.Title>
+          <Badge bg="success">{viaje.preu || 'N/A'}€</Badge>
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
         </div>
         
         <Card.Text className="text-muted small mb-3">
@@ -31,6 +37,7 @@ const TarjetaViaje = ({ viaje }) => {
         
         <div className="mt-auto">
           <div className="d-flex justify-content-between align-items-center mb-3 text-secondary small">
+<<<<<<< HEAD
             <span>📅 {viaje.data_inici}</span>
             <span>📍 {viaje.desti}</span>
           </div>
@@ -50,6 +57,11 @@ const TarjetaViaje = ({ viaje }) => {
                 ✏️
               </Button>
             )}
+=======
+            <span>📅 {viaje.data_inici ? new Date(viaje.data_inici).toLocaleDateString() : 'TBD'}</span>
+            {/* El backend usa 'desti' en lugar de 'destinacio' */}
+            <span>📍 {viaje.desti}</span>
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
           </div>
         </div>
       </Card.Body>

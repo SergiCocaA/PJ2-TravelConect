@@ -16,33 +16,29 @@ const GestioUsuaris = () => {
       const res = await api.get('/admin/users');
       setUsuarios(res.data);
     } catch (err) {
-      setError('Error al cargar usuarios.');
+      if (err.response?.status === 404) {
+        setUsuarios([]);
+      } else {
+        setError('Error al cargar usuarios.');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
+  const handleChangeRole = async (id, currentRole) => {
+      const newRole = currentRole === 'Viatger' ? 'Creador' : 'Viatger';
+      const roleDisplayName = newRole === 'Viatger' ? 'Viajero' : 'Creador';
       try {
-        await api.delete(`/admin/users/${id}`);
-        setUsuarios(usuarios.filter(u => u.id !== id));
+          await api.put(`/admin/users/${id}/promote`, { new_rol: newRole });
+          setUsuarios(usuarios.map(u => u.id === id ? { ...u, rol: newRole } : u));
+          alert(`Rol cambiado a ${roleDisplayName} con éxito.`);
       } catch (err) {
-        alert('Error al eliminar usuario.');
-      }
-    }
-  };
-
-  const handleChangeRole = async (id, newRole) => {
-      try {
-          await api.patch(`/admin/users/${id}/role`, { role: newRole });
-          setUsuarios(usuarios.map(u => u.id === id ? { ...u, role: newRole } : u));
-      } catch (err) {
-          alert('Error al cambiar rol.');
+          alert('Error al cambiar rol: ' + (err.response?.data?.detail || err.message));
       }
   };
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
+  if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
 
   return (
     <Container className="py-4">
@@ -60,27 +56,29 @@ const GestioUsuaris = () => {
           </tr>
         </thead>
         <tbody>
-          {usuarios.map(u => (
-            <tr key={u.id}>
-              <td>{u.id}</td>
-              <td>{u.username}</td>
-              <td>{u.email}</td>
-              <td>
-                <Badge bg={u.role === 'Admin' ? 'danger' : (u.role === 'Creador' ? 'warning' : 'info')}>
-                  {u.role}
-                </Badge>
-              </td>
-              <td>
-                <Button variant="outline-danger" size="sm" onClick={() => handleDelete(u.id)}>Eliminar</Button>
-                {' '}
-                {u.role !== 'Admin' && (
-                    <Button variant="outline-primary" size="sm" onClick={() => handleChangeRole(u.id, u.role === 'Viatger' ? 'Creador' : 'Viatger')}>
-                        Cambiar a {u.role === 'Viatger' ? 'Creador' : 'Viatger'}
-                    </Button>
-                )}
-              </td>
-            </tr>
-          ))}
+          {usuarios.length === 0 ? (
+            <tr><td colSpan="5" className="text-center">No hay usuarios registrados.</td></tr>
+          ) : (
+            usuarios.map(u => (
+              <tr key={u.id}>
+                <td>{u.id}</td>
+                <td>{u.full_name}</td>
+                <td>{u.email}</td>
+                <td>
+                  <Badge bg={u.rol === 'Admin' ? 'danger' : (u.rol === 'Creador' ? 'warning' : 'info')}>
+                    {u.rol === 'Viatger' ? 'Viajero' : (u.rol === 'Creador' ? 'Creador' : 'Admin')}
+                  </Badge>
+                </td>
+                <td>
+                  {u.rol !== 'Admin' && (
+                      <Button variant="outline-primary" size="sm" onClick={() => handleChangeRole(u.id, u.rol)}>
+                          Cambiar a {u.rol === 'Viatger' ? 'Creador' : 'Viajero'}
+                      </Button>
+                  )}
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </Container>

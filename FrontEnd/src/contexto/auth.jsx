@@ -8,20 +8,23 @@ export const AuthProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Cargar usuario desde localStorage al iniciar
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        // Verificar si el token ha expirado
         const currentTime = Date.now() / 1000;
         if (decoded.exp < currentTime) {
           logout();
         } else {
+          // Nota: El backend usa 'rol', no 'role'
           setUsuario({
             id: decoded.sub,
             username: decoded.username || decoded.sub,
+<<<<<<< HEAD
             role: decoded.rol || decoded.role,
+=======
+            role: decoded.rol || decoded.role, 
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
             token: token
           });
         }

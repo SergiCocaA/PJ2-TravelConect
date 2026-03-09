@@ -18,10 +18,13 @@ const DetalleViaje = () => {
       try {
         const res = await api.get(`/viatge/trips/${id}`);
         setViaje(res.data);
+<<<<<<< HEAD
         
         // Verificar si el usuario ya está inscrito
         // Nota: El backend tiene la lógica de inscripción pero no un endpoint específico de 'check'
         // Podemos inferirlo si el backend devolviera la lista de participantes en el viaje
+=======
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
       } catch (err) {
         setError('No se pudo cargar la información del viaje.');
       } finally {
@@ -51,11 +54,25 @@ const DetalleViaje = () => {
     <Container className="mb-5">
       <Row className="mb-4">
         <Col lg={8}>
+<<<<<<< HEAD
           <h1 className="mb-3">{viaje.nom}</h1>
           <div className="d-flex gap-2 mb-3">
             <Badge bg="info">{viaje.desti}</Badge>
             <Badge bg="secondary">{viaje.data_inici} - {viaje.data_fi}</Badge>
             <Badge bg={viaje.estat === 'Actiu' ? 'success' : 'secondary'}>{viaje.estat}</Badge>
+=======
+          {/* El backend usa 'nom' */}
+          <h1 className="mb-3">{viaje.nom}</h1>
+          <div className="d-flex gap-2 mb-3">
+            {/* El backend usa 'desti' */}
+            <Badge bg="info">{viaje.desti}</Badge>
+            <Badge bg="success">{viaje.preu || 'N/A'}€</Badge>
+            {/* El backend usa 'data_fi' */}
+            <Badge bg="secondary">
+              {viaje.data_inici ? new Date(viaje.data_inici).toLocaleDateString() : 'TBD'} - 
+              {viaje.data_fi ? new Date(viaje.data_fi).toLocaleDateString() : 'TBD'}
+            </Badge>
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
           </div>
           
           {viaje.imagen_url && (
@@ -64,6 +81,7 @@ const DetalleViaje = () => {
           
           <h3>Descripción</h3>
           <p className="lead">{viaje.descripcio}</p>
+<<<<<<< HEAD
           
           <div className="mt-4">
             <h5>Información del viaje:</h5>
@@ -74,6 +92,8 @@ const DetalleViaje = () => {
                 <ListGroup.Item>👥 <strong>Máximo participantes:</strong> {viaje.maxim_participants}</ListGroup.Item>
             </ListGroup>
           </div>
+=======
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
         </Col>
         
         <Col lg={4}>
@@ -81,7 +101,11 @@ const DetalleViaje = () => {
             <Card.Body>
               <h4 className="mb-3 text-center">Acciones</h4>
               
+<<<<<<< HEAD
               {usuario && usuario.role === 'Viatger' && (
+=======
+              {usuario?.role === 'Viatger' && (
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
                 <>
                   {!isEnrolled ? (
                     <Button variant="primary" size="lg" className="w-100 mb-3" onClick={handleEnroll}>
@@ -103,8 +127,15 @@ const DetalleViaje = () => {
               
               <hr />
               <div className="text-muted small">
+<<<<<<< HEAD
                 <p>Estado: {viaje.estat}</p>
                 <p>Creador ID: {viaje.creador_id}</p>
+=======
+                {/* El backend usa 'maxim_participants' */}
+                <p>Capacidad: {viaje.maxim_participants} personas</p>
+                <p>Destino: {viaje.desti}</p>
+                <p>Estado: {viaje.estat}</p>
+>>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
               </div>
             </Card.Body>
           </Card>

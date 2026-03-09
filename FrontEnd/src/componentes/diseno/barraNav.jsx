@@ -52,7 +52,7 @@ const BarraNavegacion = () => {
               </NavDropdown>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login">Iniciar Sesión</Nav.Link>
                 <Button as={Link} to="/register" variant="outline-light" className="ms-lg-2">Registrarse</Button>
               </>
             )}

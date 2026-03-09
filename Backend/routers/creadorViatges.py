@@ -22,7 +22,8 @@ def editar_viatge(id: int, data: dict, db: Session = Depends(get_db), usuari = D
     if usuari.rol not in ["Creador", "Admin"]:
         raise HTTPException(status_code=403, detail="No tens permisos")
     
-    viatge_actualitzat = crud.editar_viatge(db, data, id, usuari.id)
+    # Pasamos también el rol del usuario para que el CRUD sepa si es Admin
+    viatge_actualitzat = crud.editar_viatge(db, data, id, usuari.id, usuari.rol)
     
     if not viatge_actualitzat:
         raise HTTPException(status_code=404, detail="Viatge no trobat o no ets el creador")
