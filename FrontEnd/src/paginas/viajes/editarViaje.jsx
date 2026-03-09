@@ -12,14 +12,8 @@ const EditarViaje = () => {
     desti: '',
     data_inici: '',
     data_fi: '',
-<<<<<<< HEAD
     maxim_participants: 10,
     estat: 'Planificant'
-=======
-    preu: '',
-    maxim_participants: '',
-    imagen_url: ''
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -31,38 +25,14 @@ const EditarViaje = () => {
         const respuesta = await api.get(`/viatge/trips/${id}`);
         const viaje = respuesta.data;
         
-<<<<<<< HEAD
-=======
-        const formatFecha = (fechaStr) => {
-          if (!fechaStr) return '';
-          try {
-              const partes = fechaStr.split('/');
-              if (partes.length === 3) {
-                  return `${partes[2]}-${partes[1]}-${partes[0]}`;
-              }
-              return new Date(fechaStr).toISOString().split('T')[0];
-          } catch (e) {
-              return fechaStr;
-          }
-        };
-
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
         setFormData({
           nom: viaje.nom || '',
           descripcio: viaje.descripcio || '',
           desti: viaje.desti || '',
-<<<<<<< HEAD
           data_inici: viaje.data_inici || '',
           data_fi: viaje.data_fi || '',
           maxim_participants: viaje.maxim_participants || 10,
           estat: viaje.estat || 'Planificant'
-=======
-          data_inici: formatFecha(viaje.data_inici),
-          data_fi: formatFecha(viaje.data_fi),
-          preu: viaje.preu || '',
-          maxim_participants: viaje.maxim_participants || '',
-          imagen_url: viaje.imagen_url || ''
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
         });
       } catch (err) {
         setError('Error al cargar los datos del viaje');
@@ -84,17 +54,10 @@ const EditarViaje = () => {
     setError('');
 
     try {
-<<<<<<< HEAD
-      await api.put(`/creadorViatges/creator/trips/${id}`, {
-        ...formData,
-        maxim_participants: parseInt(formData.maxim_participants)
-=======
       // Ruta final: /creadorViatges/creator/trips/{id}
       await api.put(`/creadorViatges/creator/trips/${id}`, {
         ...formData,
-        preu: parseFloat(formData.preu || 0),
         maxim_participants: parseInt(formData.maxim_participants || 10)
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
       });
       alert('Viaje actualizado con éxito');
       navigate(`/trips/${id}`);
@@ -139,7 +102,6 @@ const EditarViaje = () => {
                   />
                 </Form.Group>
 
-<<<<<<< HEAD
                 <Form.Group className="mb-3">
                   <Form.Label>Destino</Form.Label>
                   <Form.Control 
@@ -149,32 +111,6 @@ const EditarViaje = () => {
                     required 
                   />
                 </Form.Group>
-=======
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Destino</Form.Label>
-                      <Form.Control 
-                        name="desti" 
-                        value={formData.desti} 
-                        onChange={handleChange} 
-                        required 
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Precio (€)</Form.Label>
-                      <Form.Control 
-                        type="number" 
-                        name="preu" 
-                        value={formData.preu} 
-                        onChange={handleChange} 
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
 
                 <Row>
                   <Col md={6}>
@@ -203,7 +139,6 @@ const EditarViaje = () => {
                   </Col>
                 </Row>
 
-<<<<<<< HEAD
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
@@ -231,20 +166,6 @@ const EditarViaje = () => {
                 </Row>
 
                 <div className="d-flex gap-2 mt-4">
-=======
-                <Form.Group className="mb-3">
-                  <Form.Label>Máximo de Participantes</Form.Label>
-                  <Form.Control 
-                    type="number" 
-                    name="maxim_participants" 
-                    value={formData.maxim_participants} 
-                    onChange={handleChange} 
-                    required 
-                  />
-                </Form.Group>
-
-                <div className="d-flex gap-2">
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
                   <Button variant="secondary" className="w-50" onClick={() => navigate(-1)}>
                     Cancelar
                   </Button>

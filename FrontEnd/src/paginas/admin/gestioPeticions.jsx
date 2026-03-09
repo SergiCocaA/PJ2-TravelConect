@@ -70,9 +70,9 @@ const GestioPeticions = () => {
                   <td>
                     {p.estat === 'pendent' && (
                         <>
-                            <Button variant="success" size="sm" onClick={() => handleAction(p.id, 'aprova')}>Aprobar</Button>
+                            <Button variant="success" size="sm" onClick={() => handleAction(p.usuari_solicitant, 'aprova')}>Aprobar</Button>
                             {' '}
-                            <Button variant="danger" size="sm" onClick={() => handleAction(p.id, 'denega')}>Denegar</Button>
+                            <Button variant="danger" size="sm" onClick={() => handleAction(p.usuari_solicitant, 'denega')}>Denegar</Button>
                         </>
                     )}
                   </td>

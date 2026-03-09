@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 import models.usuari as models
-from passlib.context import CryptContext
+from auth.utils import hash_password, pwd_context
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def get_usuari_por_id(db: Session, usuari_id: int):
     return db.query(models.Usuari).filter(models.Usuari.id == usuari_id).first()
@@ -21,13 +20,17 @@ def actualizar_perfil_usuari(db: Session, usuari_id: int, nom: str, bio: str):
     return None
 
 def crear_usuari(db: Session, data: dict):
-    hashed_password = pwd_context.hash(data["password"])
+    # Aseguramos que el rol sea el que viene en la data o por defecto Viatger
+
+    rol = data.get("rol", "Viatger")
     
+    hashed_password = hash_password(data.get("password"))
+
     usuari = models.Usuari(
-        full_name=data["full_name"],
-        email=data["email"],
+        full_name=data.get("full_name"),
+        email=data.get("email"),
         hashed_password=hashed_password,
-        rol="Viatger",
+        rol=rol,
         bio=data.get("bio")
     )
     

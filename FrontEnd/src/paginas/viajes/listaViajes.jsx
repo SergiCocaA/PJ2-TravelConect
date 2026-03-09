@@ -15,12 +15,9 @@ const ListaViajes = () => {
   useEffect(() => {
     const fetchViajes = async () => {
       try {
-<<<<<<< HEAD
-=======
         // En main.py: prefix="/viatge"
         // En viatge.py: router.get("/trips")
         // Ruta final: /viatge/trips
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
         const respuesta = await api.get('/viatge/trips');
         setViajes(respuesta.data);
       } catch (err) {

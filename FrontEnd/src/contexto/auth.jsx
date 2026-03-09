@@ -20,11 +20,7 @@ export const AuthProvider = ({ children }) => {
           setUsuario({
             id: decoded.sub,
             username: decoded.username || decoded.sub,
-<<<<<<< HEAD
             role: decoded.rol || decoded.role,
-=======
-            role: decoded.rol || decoded.role, 
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
             token: token
           });
         }

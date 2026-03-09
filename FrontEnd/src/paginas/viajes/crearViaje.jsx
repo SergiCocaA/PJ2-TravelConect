@@ -10,14 +10,8 @@ const CrearViaje = () => {
     desti: '',
     data_inici: '',
     data_fi: '',
-<<<<<<< HEAD
     maxim_participants: 10,
     estat: 'Planificant'
-=======
-    preu: '',
-    maxim_participants: '',
-    imagen_url: ''
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,19 +28,12 @@ const CrearViaje = () => {
     setError('');
 
     try {
-<<<<<<< HEAD
-      await api.post('/creadorViatges/creator/trips', {
-        ...formData,
-        maxim_participants: parseInt(formData.maxim_participants)
-=======
       // En main.py: prefix="/creadorViatges"
       // En creadorViatges.py: prefix="/creator" + router.post("/trips")
       // Ruta final: /creadorViatges/creator/trips
       await api.post('/creadorViatges/creator/trips', {
         ...formData,
-        preu: parseFloat(formData.preu || 0),
         maxim_participants: parseInt(formData.maxim_participants || 10)
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
       });
       alert('Viaje creado con éxito');
       navigate('/dashboard');
@@ -89,7 +76,6 @@ const CrearViaje = () => {
                   />
                 </Form.Group>
 
-<<<<<<< HEAD
                 <Form.Group className="mb-3">
                   <Form.Label>Destino</Form.Label>
                   <Form.Control 
@@ -99,32 +85,6 @@ const CrearViaje = () => {
                     required 
                   />
                 </Form.Group>
-=======
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Destino</Form.Label>
-                      <Form.Control 
-                        name="desti" 
-                        value={formData.desti} 
-                        onChange={handleChange} 
-                        required 
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Precio (€)</Form.Label>
-                      <Form.Control 
-                        type="number" 
-                        name="preu" 
-                        value={formData.preu} 
-                        onChange={handleChange} 
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
 
                 <Row>
                   <Col md={6}>
@@ -153,7 +113,6 @@ const CrearViaje = () => {
                   </Col>
                 </Row>
 
-<<<<<<< HEAD
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
@@ -181,29 +140,6 @@ const CrearViaje = () => {
                 </Row>
 
                 <Button variant="primary" type="submit" className="w-100 mt-4 py-2" disabled={loading}>
-=======
-                <Form.Group className="mb-3">
-                  <Form.Label>Máximo de Participantes</Form.Label>
-                  <Form.Control 
-                    type="number" 
-                    name="maxim_participants" 
-                    value={formData.maxim_participants} 
-                    onChange={handleChange} 
-                    required 
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-4">
-                  <Form.Label>URL de la Imagen (opcional)</Form.Label>
-                  <Form.Control 
-                    name="imagen_url" 
-                    value={formData.imagen_url} 
-                    onChange={handleChange} 
-                  />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100 py-2" disabled={loading}>
->>>>>>> 23ea7f7e067a8aa83d959981917e997777a3264e
                   {loading ? 'Creando...' : 'Publicar Viaje'}
                 </Button>
               </Form>

@@ -47,4 +47,4 @@ def get_id_from_token(token: str) -> int:
 
 #Hashea la contraseña
 def hash_password(password: str):
-    return bcrypt.hashpw(password, bcrypt.gensalt())
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
