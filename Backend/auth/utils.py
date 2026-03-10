@@ -12,8 +12,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 #Compara la contraseña plana con la contraseña de la BD, verfica si son las mismas
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+def verify_password(plain_password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"),
+        hashed.encode("utf-8"),
+    )
 
 #Autentifica si el usuari y contraseñas son correctas, usamos la funcion de verify passowrd para obtener la contraseña hasheada
 def authenticate_user(usuari: str, password: str, db):

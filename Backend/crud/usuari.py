@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 import models.usuari as models
-from auth.utils import hash_password, pwd_context
+from auth.utils import hash_password, pwd_context, verify_password
 
 
 def get_usuari_por_id(db: Session, usuari_id: int):
@@ -45,7 +45,7 @@ def autenticar_usuari(db: Session, email: str, password: str):
     if not usuari:
         return False
     
-    if not pwd_context.verify(password, usuari.hashed_password):
+    if not verify_password(password, usuari.hashed_password):
         return False
     
     return usuari
