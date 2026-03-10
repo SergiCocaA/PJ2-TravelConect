@@ -13,4 +13,8 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Métodos para el Chat
+export const getChatMessages = (tripId) => api.get(`/missatges/trips/${tripId}/chat`);
+export const sendChatMessage = (tripId, data) => api.post(`/missatges/trips/${tripId}/chat/send`, data);
+
 export default api;

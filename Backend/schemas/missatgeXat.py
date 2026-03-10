@@ -1,22 +1,19 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-#Clase padre que heredan las demas
 class MissatgeXat(BaseModel):
     contingut: str
 
-#Recibir datos id de viatge recibido desde la URL de frontEnd
 class MissatgeCreate(MissatgeXat):
     pass 
-    #autor_xat: int el autor se saca del token para mas seguridad
 
-#Enviar datos frontEnd
 class MissatgeResponse(MissatgeXat):
     id: int
     viatge_xat: int
     autor_xat: int
+    autor_nom: Optional[str] = "Usuari" # Añadimos el nombre del autor
     timestamp: datetime
 
     class Config:
-        orm_mode = True
-        #Permite que pydantic entienda y use objetos de sqlalchemy para transformarlos en objetos de JSON
+        from_attributes = True

@@ -9,10 +9,15 @@ router = APIRouter(prefix="/trips", tags=["Xat"])
 
 @router.get("/{trip_id}/chat", response_model=list[MissatgeResponse])
 def missatges_per_viatge(trip_id: int, db: Session = Depends(get_db)):
-   db_missatge = get_missatge_per_viatge(db, trip_id)
-   if not db_missatge:
-        raise HTTPException(status_code=404, detail="Missatges de viatge no trobats")
-   return db_missatge
+    db_missatges = get_missatge_per_viatge(db, trip_id)
+    # Convertimos los objetos para añadir el nombre del autor
+    result = []
+    for msg in db_missatges:
+        m = MissatgeResponse.from_orm(msg)
+        if msg.autor:
+            m.autor_nom = msg.autor.full_name or msg.autor.email
+        result.append(m)
+    return result
 
 @router.post ("/{trip_id}/chat/send", response_model=MissatgeResponse)
 def missatge(trip_id: int, missatge:MissatgeCreate, 
@@ -21,13 +26,8 @@ def missatge(trip_id: int, missatge:MissatgeCreate,
     db_missatge = create_missatge(db,trip_id,missatge,autor_id=current_user.id)
     if not db_missatge:
         raise HTTPException(status_code=400, detail="Error al crear missatge")
-    return db_missatge
-
- 
-#response_model=MissatgesResponse para controlar la informacion que va a recibir el usuario solo lo esencial,
-    #puede usarse el list si es una cadena muy larga de contenido
-
-#def missatges_per_viatge(trip_id: int, db: Session = Depends(get_db)): se encarga de organizar un poco la infomarcon como puede ser sacar el id del trip de la url,
-    #abir una session a la base de datos que luego se cierra atuomatico
-
-#current_user:User = Depends(get_current_user)): Seguridad, se encarga de extraer el token de la URL para conseguir los datos del usario en la base de datos
+    
+    # Preparamos la respuesta con el nombre del autor actual
+    res = MissatgeResponse.from_orm(db_missatge)
+    res.autor_nom = current_user.full_name or current_user.email
+    return res

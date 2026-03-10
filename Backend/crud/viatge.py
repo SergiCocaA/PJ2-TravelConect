@@ -1,10 +1,10 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 import models.viatge as models
 import models.peticioPromo as modelsPeticio
 import schemas.viatge as schemasViatge
 
 def get_viatge_por_id(db: Session, viatge_id: int):
-    return db.query(models.Viatge).filter(models.Viatge.id == viatge_id).first()
+    return db.query(models.Viatge).options(joinedload(models.Viatge.participants)).filter(models.Viatge.id == viatge_id).first()
 
 def get_viatges(db: Session):
     return db.query(models.Viatge).all()
