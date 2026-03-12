@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexto/auth';
+import logo from '../../assets/logo.png';
 
 const BarraNavegacion = () => {
   const { usuario, logout } = useContext(AuthContext);
@@ -15,24 +16,33 @@ const BarraNavegacion = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
       <Container>
-        <Navbar.Brand as={Link} to="/">TravelConnect</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img
+            src={logo}
+            width="140"
+            height="70"
+            className="d-inline-block align-top me-2"
+            alt="Logo click click"
+          />
+          TravelConnect
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/homepage">Inicio</Nav.Link>
-            
+
             {usuario && (
               <>
                 <Nav.Link as={Link} to="/dashboard">Explorar Viajes</Nav.Link>
-                
+
                 {usuario.role === 'Viatger' && (
                   <Nav.Link as={Link} to="/promotion">Ser Creador</Nav.Link>
                 )}
-                
+
                 {(usuario.role === 'Creador' || usuario.role === 'Admin') && (
                   <Nav.Link as={Link} to="/trips/create">Crear Viaje</Nav.Link>
                 )}
-                
+
                 {usuario.role === 'Admin' && (
                   <NavDropdown title="Administración" id="admin-nav-dropdown">
                     <NavDropdown.Item as={Link} to="/admin/users">Gestión Usuarios</NavDropdown.Item>
@@ -42,7 +52,7 @@ const BarraNavegacion = () => {
               </>
             )}
           </Nav>
-          
+
           <Nav>
             {usuario ? (
               <NavDropdown title={`Hola, ${usuario.username}`} id="user-nav-dropdown">
