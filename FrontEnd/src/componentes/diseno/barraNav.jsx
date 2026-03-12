@@ -19,8 +19,8 @@ const BarraNavegacion = () => {
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img
             src={logo}
-            width="140"
-            height="70"
+            width="86"
+            height="73"
             className="d-inline-block align-top me-2"
             alt="Logo click click"
           />
